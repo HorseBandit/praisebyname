@@ -21,6 +21,11 @@ namespace MidtermOneSWE.ConcreteZombies
             }
         }
 
+        public override string ToString()
+        {
+            return $"{Type} Zombie (Health: {Health})";
+        }
+
         public void Die()
         {
             Console.WriteLine("DIE METHOD! Regular Zombie has died!");
@@ -39,6 +44,11 @@ namespace MidtermOneSWE.ConcreteZombies
             {
                 Die();
             }
+        }
+
+        public override string ToString()
+        {
+            return $"{Type} Zombie (Health: {Health})";
         }
 
         public void Die()
@@ -61,6 +71,11 @@ namespace MidtermOneSWE.ConcreteZombies
             }
         }
 
+        public override string ToString()
+        {
+            return $"{Type} Zombie (Health: {Health})";
+        }
+
         public void Die()
         {
             Console.WriteLine("DIE METHOD! Bucket Zombie has died!");
@@ -79,6 +94,11 @@ namespace MidtermOneSWE.ConcreteZombies
             {
                 Die();
             }
+        }
+
+        public override string ToString()
+        {
+            return $"{Type} Zombie (Health: {Health})";
         }
 
         public void Die()
