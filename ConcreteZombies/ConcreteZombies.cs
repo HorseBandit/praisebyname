@@ -9,16 +9,27 @@ using static MidtermOneSWE.Interfaces.IZombieComponent;
 
 namespace MidtermOneSWE.ConcreteZombies
 {
+    /// <summary>
+    /// Classes for all four types of zombies of type IZombieComponent. Documentation for regular zombies below, others ommitted.
+    /// </summary>
     class RegularZombie : IZombieComponent
     {
         public string Type => "Regular";
         public int Health { get; private set; } = 50;
 
+        /// <summary>
+        /// SetHealth method to maintain zombie health after transforming.
+        /// </summary>
+        /// <param name="newHealth"></param>
         public void SetHealth(int newHealth)
         {
             Health = newHealth;
         }
 
+        /// <summary>
+        /// Damage method with health set at lower bound zero.
+        /// </summary>
+        /// <param name="damage"></param>
         public void TakeDamage(int damage)
         {
             Health -= damage;
@@ -29,6 +40,9 @@ namespace MidtermOneSWE.ConcreteZombies
             }
         }
 
+        /// <summary>
+        /// Overridden ToString method to print zombie type and health.
+        /// </summary>
         public override string ToString()
         {
             return $"{Type} Zombie (Health: {Health})";
@@ -66,11 +80,14 @@ namespace MidtermOneSWE.ConcreteZombies
             }
             else if (Health <= 75)
             {
-                TransformToRegular();
+                TransformAccessoryZombieToRegular();
             }
         }
 
-        private void TransformToRegular()
+        /// <summary>
+        /// TransformToRegular method to convert an accessory zombie to a regular zombie.
+        /// </summary>
+        private void TransformAccessoryZombieToRegular()
         {
             var regularZombie = (RegularZombie)_zombieFactory.CreateZombie("Regular");
             regularZombie.SetHealth(this.Health);
@@ -114,11 +131,11 @@ namespace MidtermOneSWE.ConcreteZombies
             }
             else if (Health <= 75)
             {
-                TransformToRegular();
+                TransformAccessoryZombieToRegular();
             }
         }
 
-        private void TransformToRegular()
+        private void TransformAccessoryZombieToRegular()
         {
             var regularZombie = (RegularZombie)_zombieFactory.CreateZombie("Regular");
             regularZombie.SetHealth(this.Health);
@@ -162,11 +179,11 @@ namespace MidtermOneSWE.ConcreteZombies
             }
             else if (Health <= 75)
             {
-                TransformToRegular();
+                TransformAccessoryZombieToRegular();
             }
         }
 
-        private void TransformToRegular()
+        private void TransformAccessoryZombieToRegular()
         {
             var regularZombie = (RegularZombie)_zombieFactory.CreateZombie("Regular");
             regularZombie.SetHealth(this.Health);

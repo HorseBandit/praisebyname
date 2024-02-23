@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace MidtermOneSWE.Interfaces
 {
+    /// <summary>
+    /// Interface for zombie factories.
+    /// </summary>
     interface IZombieFactory
     {
         IZombieComponent CreateZombie(string type);

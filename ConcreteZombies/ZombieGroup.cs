@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace MidtermOneSWE.ConcreteZombies
 {
+    /// <summary>
+    /// Class for ZombieGroups using the Composite pattern.
+    /// </summary>
     class ZombieGroup : IZombieComponent
     {
         private List<IZombieComponent> zombies = new List<IZombieComponent>();
@@ -19,6 +22,10 @@ namespace MidtermOneSWE.ConcreteZombies
             zombies.Add(zombie);
         }
 
+        /// <summary>
+        /// Method for allowing the group of zombies to take damage.
+        /// </summary>
+        /// <param name="damage"></param>
         public void TakeDamage(int damage)
         {
 
@@ -48,6 +55,12 @@ namespace MidtermOneSWE.ConcreteZombies
             
         }
 
+        /// <summary>
+        /// Overridden ToString to print zombie descriptions belonging to zombiegroups.
+        /// </summary>
+        /// <returns>
+        /// Overridden ToString.
+        ///</returns>
         public override string ToString()
         {
             var zombieDescriptions = zombies.Select(z => $"- {z.Type} (Health: {z.Health})");

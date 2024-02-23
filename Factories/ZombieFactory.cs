@@ -8,9 +8,21 @@ using System.Threading.Tasks;
 
 namespace MidtermOneSWE.Factories
 {
+    /// <summary>
+    /// ZombieFactory implements IZombieFactory
+    /// </summary>
     class ZombieFactory : IZombieFactory
     {
         private Random random = new Random();
+
+        /// <summary>
+        /// CreateZombie single method for creating all types of zombies using the zombie factory.
+        /// </summary>
+        /// <param name="type"></param>
+        /// <returns>
+        /// A zombie of type IZombieComponent
+        /// </returns>
+        /// <exception cref="ArgumentException"></exception>
         public IZombieComponent CreateZombie(string type)
         {
             return type switch
@@ -23,6 +35,13 @@ namespace MidtermOneSWE.Factories
                 _ => throw new ArgumentException("Invalid zombie type", nameof(type)),
             };
         }
+
+        /// <summary>
+        /// CreateZombieGroup creates a group of zombies using the Composition pattern.
+        /// </summary>
+        /// <returns>
+        /// ZombieGroup of type IZombieComponent
+        /// </returns>
 
         private IZombieComponent CreateZombieGroup()
         {
@@ -37,6 +56,12 @@ namespace MidtermOneSWE.Factories
             return group;
         }
 
+        /// <summary>
+        /// CreateRandomZombie creates a random zombie of four given types.
+        /// </summary>
+        /// <returns>
+        /// A random zombie of type IZombieComponent
+        /// </returns>
         private IZombieComponent CreateRandomZombie()
         {
             string[] types = new string[] { "Regular", "Cone", "Bucket", "Screendoor" };

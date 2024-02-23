@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace MidtermOneSWE.Interfaces
 {
+    /// <summary>
+    /// Interface for ZombieComponents. This interface describes each zombie's required attributes and methods.
+    /// </summary>
     interface IZombieComponent
     {
 
@@ -15,5 +18,4 @@ namespace MidtermOneSWE.Interfaces
         void TakeDamage(int damage);
         void Die();
     }
-
 }

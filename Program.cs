@@ -7,6 +7,10 @@ class Program
 {
     static List<IZombieComponent> zombies = new List<IZombieComponent>();
 
+    /// <summary>
+    /// Main driver code.
+    /// </summary>
+    /// <param name="args"></param>
     static void Main(string[] args)
     {
         bool exit = false;
@@ -37,6 +41,10 @@ class Program
             }
         }
     }
+
+    /// <summary>
+    /// Create zombies static method to take user input and create an appropriate zombie.
+    /// </summary>
 
     static void CreateZombiesPrompt()
     {
@@ -80,6 +88,10 @@ class Program
                     {
                         bucketZombie.OnTransformation += HandleZombieTransformation;
                     }
+                    if (zombie is ScreendoorZombie screendoorZombie)
+                    {
+                        screendoorZombie.OnTransformation += HandleZombieTransformation;
+                    }
                     zombies.Add(zombie);
                     Console.WriteLine($"{zombie.Type} Zombie created with {zombie.Health} health.");
                 }
@@ -101,6 +113,10 @@ class Program
         Console.WriteLine("Press any key to return to the main menu.");
         Console.ReadKey();
     }
+
+    /// <summary>
+    /// Driver code for gameplay
+    /// </summary>
 
     static void DemoGameplay()
     {
@@ -161,6 +177,11 @@ class Program
         }
     }
 
+    /// <summary>
+    /// PrintZombies iterates the list of IZombieComponent and prints each zombie
+    /// </summary>
+    /// <param name="zombies"></param>
+
     static void PrintZombies(List<IZombieComponent> zombies)
     {
         Console.WriteLine("Current Zombies:");
@@ -170,6 +191,11 @@ class Program
         }
     }
 
+    /// <summary>
+    /// HandleZombieTransformation takes the oldZombie and transforms it accordingly.
+    /// </summary>
+    /// <param name="oldZombie"></param>
+    /// <param name="newZombie"></param>
     static void HandleZombieTransformation(IZombieComponent oldZombie, IZombieComponent newZombie)
     {
         int index = zombies.IndexOf(oldZombie);
