@@ -24,6 +24,7 @@ namespace MidtermOneSWE.ConcreteZombies
             Health -= damage;
             if (Health <= 0)
             {
+                Health = 0;
                 Die();
             }
         }
@@ -35,7 +36,9 @@ namespace MidtermOneSWE.ConcreteZombies
 
         public void Die()
         {
+            Console.WriteLine();
             Console.WriteLine("DIE METHOD! Regular Zombie has died!");
+            Console.WriteLine();
         }
     }
 
@@ -58,6 +61,7 @@ namespace MidtermOneSWE.ConcreteZombies
             Health -= damage;
             if (Health <= 0)
             {
+                Health = 0;
                 Die();
             }
             else if (Health <= 75)
@@ -81,12 +85,22 @@ namespace MidtermOneSWE.ConcreteZombies
 
         public void Die()
         {
+            Console.WriteLine();
             Console.WriteLine("DIE METHOD! Cone Zombie has died!");
+            Console.WriteLine();
         }
     }
 
     class BucketZombie : IZombieComponent
     {
+        private readonly IZombieFactory _zombieFactory;
+
+        public event ZombieTransformationHandler OnTransformation;
+
+        public BucketZombie(IZombieFactory zombieFactory)
+        {
+            _zombieFactory = zombieFactory;
+        }
         public string Type => "Bucket";
         public int Health { get; private set; } = 150;
 
@@ -95,8 +109,21 @@ namespace MidtermOneSWE.ConcreteZombies
             Health -= damage;
             if (Health <= 0)
             {
+                Health = 0;
                 Die();
             }
+            else if (Health <= 75)
+            {
+                TransformToRegular();
+            }
+        }
+
+        private void TransformToRegular()
+        {
+            var regularZombie = (RegularZombie)_zombieFactory.CreateZombie("Regular");
+            regularZombie.SetHealth(this.Health);
+            Console.WriteLine("WHOA! Flying bucket! It's now a Regular Zombie!");
+            OnTransformation?.Invoke(this, regularZombie);
         }
 
         public override string ToString()
@@ -106,22 +133,45 @@ namespace MidtermOneSWE.ConcreteZombies
 
         public void Die()
         {
+            Console.WriteLine();
             Console.WriteLine("DIE METHOD! Bucket Zombie has died!");
+            Console.WriteLine();
         }
     }
 
     class ScreendoorZombie : IZombieComponent
     {
+        private readonly IZombieFactory _zombieFactory;
+
+        public event ZombieTransformationHandler OnTransformation;
         public string Type => "Screendoor";
         public int Health { get; private set; } = 75;
+
+        public ScreendoorZombie(IZombieFactory zombieFactory)
+        {
+            _zombieFactory = zombieFactory;
+        }
 
         public void TakeDamage(int damage)
         {
             Health -= damage;
             if (Health <= 0)
             {
+                Health = 0;
                 Die();
             }
+            else if (Health <= 75)
+            {
+                TransformToRegular();
+            }
+        }
+
+        private void TransformToRegular()
+        {
+            var regularZombie = (RegularZombie)_zombieFactory.CreateZombie("Regular");
+            regularZombie.SetHealth(this.Health);
+            Console.WriteLine("SAILING SCREENDOOR! That's now a Regular Zombie!");
+            OnTransformation?.Invoke(this, regularZombie);
         }
 
         public override string ToString()
@@ -131,8 +181,9 @@ namespace MidtermOneSWE.ConcreteZombies
 
         public void Die()
         {
+            Console.WriteLine();
             Console.WriteLine("DIE METHOD! Screendoor Zombie has died!");
+            Console.WriteLine();
         }
     }
-
 }

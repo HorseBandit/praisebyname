@@ -35,24 +35,12 @@ namespace MidtermOneSWE.ConcreteZombies
                 else if ((firstZombie is ConeZombie || firstZombie is BucketZombie || firstZombie is ScreendoorZombie) && firstZombie.Health <= 75)
                 {
                     var transformedZombie = new RegularZombie();
-                    transformedZombie.SetHealth(firstZombie.Health); // Set health of the new RegularZombie
-                    zombies[0] = transformedZombie; // Replace with RegularZombie
+                    transformedZombie.SetHealth(firstZombie.Health);
+                    zombies[0] = transformedZombie; 
 
                     Console.WriteLine($"{firstZombie.Type} Zombie lost its accessory and became a Regular Zombie with {transformedZombie.Health} health!");
                 }
             }
-            /*if (zombies.Any())
-            {
-                zombies[0].TakeDamage(damage);
-
-                // Check if the first zombie has died
-                if (zombies[0].Health <= 0)
-                {
-                    //zombies[0].Die(); // Call the Die method for the zombie
-                    zombies.RemoveAt(0); // Remove the dead zombie from the group
-                    Console.WriteLine($"A zombie has died. {zombies.Count} zombies remaining in the group.");
-                }
-            }*/
         }
 
         public void Die()
@@ -66,5 +54,4 @@ namespace MidtermOneSWE.ConcreteZombies
             return $"{Type}:\n{string.Join("\n", zombieDescriptions)}";
         }
     }
-
 }

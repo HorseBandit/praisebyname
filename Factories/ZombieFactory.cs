@@ -17,8 +17,8 @@ namespace MidtermOneSWE.Factories
             {
                 "Regular" => new RegularZombie(),
                 "Cone" => new ConeZombie(this),
-                "Bucket" => new BucketZombie(),
-                "Screendoor" => new ScreendoorZombie(),
+                "Bucket" => new BucketZombie(this),
+                "Screendoor" => new ScreendoorZombie(this),
                 "Group" => CreateZombieGroup(),
                 _ => throw new ArgumentException("Invalid zombie type", nameof(type)),
             };
@@ -44,5 +44,4 @@ namespace MidtermOneSWE.Factories
             return CreateZombie(types[index]);
         }
     }
-
 }
