@@ -12,6 +12,11 @@ namespace MidtermOneSWE.ConcreteZombies
         public string Type => "Regular";
         public int Health { get; private set; } = 50;
 
+        public void SetHealth(int newHealth)
+        {
+            Health = newHealth;
+        }
+
         public void TakeDamage(int damage)
         {
             Health -= damage;
