@@ -1,4 +1,5 @@
 ﻿// See https://aka.ms/new-console-template for more information
+using MidtermOneSWE.ConcreteZombies;
 using MidtermOneSWE.Factories;
 using MidtermOneSWE.Interfaces;
 
@@ -71,10 +72,15 @@ class Program
 
                 if (zombie != null)
                 {
+                    if (zombie is ConeZombie coneZombie)
+                    {
+                        coneZombie.OnTransformation += HandleZombieTransformation;
+                    }
                     zombies.Add(zombie);
                     Console.WriteLine($"{zombie.Type} Zombie created with {zombie.Health} health.");
                 }
             }
+
             catch (ArgumentException ex)
             {
                 Console.WriteLine(ex.Message);
@@ -130,6 +136,16 @@ class Program
         foreach (var zombie in zombies)
         {
             Console.WriteLine(zombie);
+        }
+    }
+
+    static void HandleZombieTransformation(IZombieComponent oldZombie, IZombieComponent newZombie)
+    {
+        int index = zombies.IndexOf(oldZombie);
+        if (index != -1)
+        {
+            zombies[index] = newZombie;
+            Console.WriteLine($"A {oldZombie.Type} Zombie transformed into a Regular Zombie!");
         }
     }
 }

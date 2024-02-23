@@ -8,6 +8,8 @@ namespace MidtermOneSWE.Interfaces
 {
     interface IZombieComponent
     {
+
+        public delegate void ZombieTransformationHandler(IZombieComponent oldZombie, IZombieComponent newZombie);
         string Type { get; }
         int Health { get; }
         void TakeDamage(int damage);

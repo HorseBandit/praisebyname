@@ -16,7 +16,7 @@ namespace MidtermOneSWE.Factories
             return type switch
             {
                 "Regular" => new RegularZombie(),
-                "Cone" => new ConeZombie(),
+                "Cone" => new ConeZombie(this),
                 "Bucket" => new BucketZombie(),
                 "Screendoor" => new ScreendoorZombie(),
                 "Group" => CreateZombieGroup(),

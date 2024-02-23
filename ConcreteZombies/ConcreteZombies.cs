@@ -1,9 +1,11 @@
-﻿using MidtermOneSWE.Interfaces;
+﻿using MidtermOneSWE.Factories;
+using MidtermOneSWE.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static MidtermOneSWE.Interfaces.IZombieComponent;
 
 namespace MidtermOneSWE.ConcreteZombies
 {
@@ -39,6 +41,15 @@ namespace MidtermOneSWE.ConcreteZombies
 
     class ConeZombie : IZombieComponent
     {
+
+        public event ZombieTransformationHandler OnTransformation;
+
+        private readonly IZombieFactory _zombieFactory;
+
+        public ConeZombie(IZombieFactory zombieFactory)
+        {
+            _zombieFactory = zombieFactory;
+        }
         public string Type => "Cone";
         public int Health { get; private set; } = 75;
 
@@ -49,6 +60,18 @@ namespace MidtermOneSWE.ConcreteZombies
             {
                 Die();
             }
+            else if (Health <= 75)
+            {
+                TransformToRegular();
+            }
+        }
+
+        private void TransformToRegular()
+        {
+            var regularZombie = (RegularZombie)_zombieFactory.CreateZombie("Regular");
+            regularZombie.SetHealth(this.Health);
+            Console.WriteLine("Cone Zombie lost its cone and became a Regular Zombie!");
+            OnTransformation?.Invoke(this, regularZombie);
         }
 
         public override string ToString()
