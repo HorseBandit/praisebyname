@@ -26,6 +26,7 @@ namespace MidtermOneSWE.ConcreteZombies
             Health = newHealth;
         }
 
+
         /// <summary>
         /// Damage method with health set at lower bound zero.
         /// </summary>

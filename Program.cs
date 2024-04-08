@@ -126,22 +126,34 @@ class Program
         Console.WriteLine();
         PrintZombies(zombies);
         Console.WriteLine();
-        Console.Write("Enter damage value: ");
-        Console.WriteLine();
-        string damageInput = Console.ReadLine();
+        Console.WriteLine("Choose your plant:");
+        Console.WriteLine("1 - Peashooter (25 damage)");
+        Console.WriteLine("2 - Watermelon (30 damage)");
+        Console.WriteLine("3 - ShroomMagnet (Special functionality)");
+        Console.Write("Enter your choice: ");
 
-        if (damageInput.ToLower() == "exit")
+        string plantChoice = Console.ReadLine();
+        int damage = 0;
+        switch (plantChoice)
         {
-            return;
+            case "1":
+                damage = 25;
+                break;
+            case "2":
+                damage = 30;
+                break;
+            case "3":
+                // Extend ShroomMagnet functionality here
+                // For demonstration, assigning a default damage value
+                damage = 0; // Set to 0 or appropriate value based on extended functionality
+                ExtendShroomMagnetFunctionality();
+                break;
+            default:
+                Console.WriteLine("Invalid choice. Returning to main menu.");
+                return;
         }
 
-        if (!int.TryParse(damageInput, out int damage) || damage <= 0)
-        {
-            Console.WriteLine("Invalid input. Please enter a positive integer for damage.");
-            return;
-        }
-
-        Console.WriteLine($"Damage set to {damage}. Press the space bar to damage the first zombie. Other keys return to main menu.");
+        Console.WriteLine($"Plant selected. Press the space bar to damage the first zombie with {damage} damage. Other keys return to main menu.");
         Console.WriteLine();
 
         while (Console.ReadKey(true).Key == ConsoleKey.Spacebar)
@@ -175,6 +187,12 @@ class Program
                 break;
             }
         }
+    }
+
+    static void ExtendShroomMagnetFunctionality()
+    {
+        // Placeholder for extending ShroomMagnet's unique functionality
+        Console.WriteLine("ShroomMagnet's special functionality activated.");
     }
 
     /// <summary>
