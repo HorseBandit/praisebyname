@@ -26,7 +26,7 @@ namespace MidtermOneSWE.ConcreteZombies
         /// Method for allowing the group of zombies to take damage.
         /// </summary>
         /// <param name="damage"></param>
-        public void TakeDamage(int damage)
+        public bool TakeDamage(int damage)
         {
 
             if (zombies.Any())
@@ -36,8 +36,10 @@ namespace MidtermOneSWE.ConcreteZombies
 
                 if (firstZombie.Health <= 0)
                 {
+                    
                     firstZombie.Die();
                     zombies.RemoveAt(0);
+                    return true;
                 }
                 else if ((firstZombie is ConeZombie || firstZombie is BucketZombie || firstZombie is ScreendoorZombie) && firstZombie.Health <= 75)
                 {
@@ -46,8 +48,10 @@ namespace MidtermOneSWE.ConcreteZombies
                     zombies[0] = transformedZombie; 
 
                     Console.WriteLine($"{firstZombie.Type} Zombie lost its accessory and became a Regular Zombie with {transformedZombie.Health} health!");
+                    return false;
                 }
             }
+            return false;
         }
 
         public void Die()

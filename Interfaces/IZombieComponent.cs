@@ -15,7 +15,9 @@ namespace MidtermOneSWE.Interfaces
         public delegate void ZombieTransformationHandler(IZombieComponent oldZombie, IZombieComponent newZombie);
         string Type { get; }
         int Health { get; }
-        void TakeDamage(int damage);
+
+        bool TakeDamage(int damage);
+        //void TakeDamage(int damage);
         void Die();
     }
 }

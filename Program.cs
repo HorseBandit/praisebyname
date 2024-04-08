@@ -158,9 +158,13 @@ class Program
         {
             if (zombies.Count > 0)
             {
-                zombies[0].TakeDamage(damage);
-                Console.WriteLine($"{zombies[0].Type} Zombie took {damage} damage. Current Health: {zombies[0].Health}");
+                bool damageTaken = zombies[0].TakeDamage(damage);
 
+                // Only print the damage message if damage was actually taken
+                if (damageTaken)
+                {
+                    Console.WriteLine($"{zombies[0].Type} Zombie took {damage} damage. Current Health: {zombies[0].Health}");
+                }
                 if (zombies[0].Health <= 0)
                 {
                     Console.WriteLine($"{zombies[0].Type} Zombie has died and is removed from the list.");

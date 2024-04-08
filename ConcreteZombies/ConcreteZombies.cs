@@ -31,7 +31,7 @@ namespace MidtermOneSWE.ConcreteZombies
         /// Damage method with health set at lower bound zero.
         /// </summary>
         /// <param name="damage"></param>
-        public void TakeDamage(int damage)
+        public bool TakeDamage(int damage)
         {
             Health -= damage;
             if (Health <= 0)
@@ -39,6 +39,7 @@ namespace MidtermOneSWE.ConcreteZombies
                 Health = 0;
                 Die();
             }
+            return true;
         }
 
         /// <summary>
@@ -73,7 +74,21 @@ namespace MidtermOneSWE.ConcreteZombies
 
         public bool HasAccessory { get; private set; } = true;
 
-        public void TakeDamage(int damage)
+        public bool TakeDamage(int damage)
+        {
+            if (HasAccessory)
+            {
+                KnockAccessory();
+                return false; // Indicates no damage was taken, only accessory knocked off
+            }
+
+            // Damage application logic remains the same
+            Health -= damage;
+            //CheckHealthAndTransform();
+            return true; // Indicates damage was taken
+        }
+
+        /*public void TakeDamage(int damage)
         {
             // Check if the zombie has an accessory before applying damage
             if (HasAccessory)
@@ -86,7 +101,7 @@ namespace MidtermOneSWE.ConcreteZombies
             // Apply damage if there is no accessory
             Health -= damage;
             //TransformAccessoryZombieToRegular();
-        }
+        }*/
 
         public void KnockAccessory()
         {
@@ -150,18 +165,19 @@ namespace MidtermOneSWE.ConcreteZombies
 
         public bool HasAccessory { get; private set; } = true;
 
-        public void TakeDamage(int damage)
+        public bool TakeDamage(int damage)
         {
             // Check if the zombie has an accessory before applying damage
             if (HasAccessory)
             {
                 KnockAccessory();
                 // Return early to ensure no damage is taken while the accessory is present
-                return;
+                return false;
             }
 
             // Apply damage if there is no accessory
             Health -= damage;
+            return true;
             //TransformAccessoryZombieToRegular();
         }
 
@@ -224,18 +240,19 @@ namespace MidtermOneSWE.ConcreteZombies
 
         public bool HasAccessory { get; private set; } = true;
 
-        public void TakeDamage(int damage)
+        public bool TakeDamage(int damage)
         {
             // Check if the zombie has an accessory before applying damage
             if (HasAccessory)
             {
                 KnockAccessory();
                 // Return early to ensure no damage is taken while the accessory is present
-                return;
+                return false;
             }
 
             // Apply damage if there is no accessory
             Health -= damage;
+            return true;
             //TransformAccessoryZombieToRegular();
         }
 
