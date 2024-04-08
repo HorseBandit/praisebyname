@@ -91,6 +91,7 @@ namespace MidtermOneSWE.ConcreteZombies
             if (strikeType == StrikeType.Normal || strikeType == StrikeType.WatermelonOverhead && HasAccessory)
             {
                 KnockAccessory();
+                return false;
             }
 
             // Apply damage if there is no accessory
