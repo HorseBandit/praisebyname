@@ -1,11 +1,12 @@
 ﻿using MidtermOneSWE.Interfaces;
+using MidtermOneSWE.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MidtermOneSWE.ConcreteZombies
+/*namespace MidtermOneSWE.ConcreteZombies
 {
     /// <summary>
     /// Class for ZombieGroups using the Composite pattern.
@@ -26,13 +27,13 @@ namespace MidtermOneSWE.ConcreteZombies
         /// Method for allowing the group of zombies to take damage.
         /// </summary>
         /// <param name="damage"></param>
-        public bool TakeDamage(int damage)
+        public bool TakeDamage(int damage, StrikeType strikeType)
         {
 
             if (zombies.Any())
             {
                 var firstZombie = zombies[0];
-                firstZombie.TakeDamage(damage);
+                firstZombie.TakeDamage(damage, strikeType);
 
                 if (firstZombie.Health <= 0)
                 {
@@ -71,4 +72,4 @@ namespace MidtermOneSWE.ConcreteZombies
             return $"{Type}:\n{string.Join("\n", zombieDescriptions)}";
         }
     }
-}
+}*/

@@ -2,10 +2,14 @@
 using MidtermOneSWE.ConcreteZombies;
 using MidtermOneSWE.Factories;
 using MidtermOneSWE.Interfaces;
+using MidtermOneSWE.Utilities;
 
 class Program
 {
     static List<IZombieComponent> zombies = new List<IZombieComponent>();
+    private static StrikeType strikeType;
+
+    //public StrikeType StrikeType { get; set; }
 
     /// <summary>
     /// Main driver code.
@@ -30,7 +34,7 @@ class Program
                     CreateZombiesPrompt();
                     break;
                 case "2":
-                    DemoGameplay();
+                    DemoGameplay(GetStrikeType());
                     break;
                 case "3":
                     exit = true;
@@ -114,11 +118,13 @@ class Program
         Console.ReadKey();
     }
 
+    private static StrikeType GetStrikeType() => strikeType;
+
     /// <summary>
     /// Driver code for gameplay
     /// </summary>
 
-    static void DemoGameplay()
+    static void DemoGameplay(StrikeType strikeType)
     {
         Console.WriteLine("Press the space bar to damage the first zombie, or any other key to return to the main menu.");
         Console.WriteLine();
@@ -138,12 +144,15 @@ class Program
         {
             case "1":
                 damage = 25;
+                strikeType = StrikeType.Normal;
                 break;
             case "2":
                 damage = 30;
+                strikeType = StrikeType.WatermelonOverhead;
                 break;
             case "3":
                 damage = 0; // Set to 0 or appropriate value based on extended functionality
+                strikeType = StrikeType.MushroomExtract;
                 ExtendShroomMagnetFunctionality();
                 break;
             default:
@@ -158,7 +167,7 @@ class Program
         {
             if (zombies.Count > 0)
             {
-                bool damageTaken = zombies[0].TakeDamage(damage);
+                bool damageTaken = zombies[0].TakeDamage(damage, strikeType);
 
                 // Only print the damage message if damage was actually taken
                 if (damageTaken)
@@ -193,7 +202,6 @@ class Program
 
     static void ExtendShroomMagnetFunctionality()
     {
-        // Placeholder for extending ShroomMagnet's unique functionality
         Console.WriteLine("ShroomMagnet's special functionality activated.");
     }
 

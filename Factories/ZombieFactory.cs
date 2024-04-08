@@ -31,7 +31,7 @@ namespace MidtermOneSWE.Factories
                 "Cone" => new ConeZombie(this),
                 "Bucket" => new BucketZombie(this),
                 "Screendoor" => new ScreendoorZombie(this),
-                "Group" => CreateZombieGroup(),
+                //"Group" => CreateZombieGroup(),
                 _ => throw new ArgumentException("Invalid zombie type", nameof(type)),
             };
         }
@@ -42,7 +42,7 @@ namespace MidtermOneSWE.Factories
         /// <returns>
         /// ZombieGroup of type IZombieComponent
         /// </returns>
-
+/*
         private IZombieComponent CreateZombieGroup()
         {
             ZombieGroup group = new ZombieGroup();
@@ -54,7 +54,7 @@ namespace MidtermOneSWE.Factories
             }
 
             return group;
-        }
+        }*/
 
         /// <summary>
         /// CreateRandomZombie creates a random zombie of four given types.
