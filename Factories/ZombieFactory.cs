@@ -1,4 +1,5 @@
 ﻿using MidtermOneSWE.ConcreteZombies;
+using MidtermOneSWE.Decorators;
 using MidtermOneSWE.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -23,15 +24,16 @@ namespace MidtermOneSWE.Factories
         /// A zombie of type IZombieComponent
         /// </returns>
         /// <exception cref="ArgumentException"></exception>
+        /// 
         public IZombieComponent CreateZombie(string type)
         {
+            IZombieComponent baseZombie = new RegularZombie();
             return type switch
             {
-                "Regular" => new RegularZombie(),
-                "Cone" => new ConeZombie(this),
-                "Bucket" => new BucketZombie(this),
-                "Screendoor" => new ScreendoorZombie(this),
-                //"Group" => CreateZombieGroup(),
+                "Regular" => baseZombie,
+                "Cone" => new ConeDecorator(baseZombie, this), // Pass 'this' factory for potential transformation
+                "Bucket" => new BucketDecorator(baseZombie, this), // Pass 'this' factory
+                "Screendoor" => new ScreendoorDecorator(baseZombie, this), // Pass 'this' factory
                 _ => throw new ArgumentException("Invalid zombie type", nameof(type)),
             };
         }
