@@ -1,5 +1,6 @@
 ﻿using MidtermOneSWE.Factories;
 using MidtermOneSWE.Interfaces;
+using MidtermOneSWE.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,6 +18,9 @@ namespace MidtermOneSWE.ConcreteZombies
         public string Type => "Regular";
         public int Health { get; private set; } = 50;
 
+        public bool HasAccessory { get; private set; } = false;
+        public bool HasMetal { get; private set; } = false;
+
         /// <summary>
         /// SetHealth method to maintain zombie health after transforming.
         /// </summary>
@@ -31,15 +35,19 @@ namespace MidtermOneSWE.ConcreteZombies
         /// Damage method with health set at lower bound zero.
         /// </summary>
         /// <param name="damage"></param>
-        public bool TakeDamage(int damage)
+        public bool TakeDamage(int damage, StrikeType strikeType)
         {
-            Health -= damage;
-            if (Health <= 0)
+            // Check if the zombie has an accessory before applying damage
+
+            if (strikeType == StrikeType.Normal || strikeType == StrikeType.WatermelonOverhead)
             {
-                Health = 0;
-                Die();
+                Health -= damage;
+                return true;
             }
-            return true;
+            return false;
+
+            // Apply damage if there is no accessory
+            //TransformAccessoryZombieToRegular();
         }
 
         /// <summary>
@@ -74,18 +82,21 @@ namespace MidtermOneSWE.ConcreteZombies
 
         public bool HasAccessory { get; private set; } = true;
 
-        public bool TakeDamage(int damage)
+        public bool HasMetal { get; private set; } = false;
+
+        public bool TakeDamage(int damage, StrikeType strikeType)
         {
-            if (HasAccessory)
+            // Check if the zombie has an accessory before applying damage
+            
+            if (strikeType == StrikeType.Normal || strikeType == StrikeType.WatermelonOverhead && HasAccessory)
             {
                 KnockAccessory();
-                return false; // Indicates no damage was taken, only accessory knocked off
             }
 
-            // Damage application logic remains the same
+            // Apply damage if there is no accessory
             Health -= damage;
-            //CheckHealthAndTransform();
-            return true; // Indicates damage was taken
+            return true;
+            //TransformAccessoryZombieToRegular();
         }
 
         /*public void TakeDamage(int damage)
@@ -156,6 +167,8 @@ namespace MidtermOneSWE.ConcreteZombies
 
         public event ZombieTransformationHandler OnTransformation;
 
+        public bool HasMetal { get; private set; } = true;
+
         public BucketZombie(IZombieFactory zombieFactory)
         {
             _zombieFactory = zombieFactory;
@@ -165,14 +178,18 @@ namespace MidtermOneSWE.ConcreteZombies
 
         public bool HasAccessory { get; private set; } = true;
 
-        public bool TakeDamage(int damage)
+        public bool TakeDamage(int damage, StrikeType strikeType)
         {
             // Check if the zombie has an accessory before applying damage
-            if (HasAccessory)
+            if (strikeType == StrikeType.MushroomExtract && HasAccessory && HasMetal)
             {
                 KnockAccessory();
                 // Return early to ensure no damage is taken while the accessory is present
                 return false;
+            }
+            else if (strikeType == StrikeType.Normal && HasAccessory)
+            {
+                KnockAccessory();
             }
 
             // Apply damage if there is no accessory
@@ -240,14 +257,20 @@ namespace MidtermOneSWE.ConcreteZombies
 
         public bool HasAccessory { get; private set; } = true;
 
-        public bool TakeDamage(int damage)
+        public bool HasMetal { get; private set; } = true;
+
+        public bool TakeDamage(int damage, StrikeType strikeType)
         {
             // Check if the zombie has an accessory before applying damage
-            if (HasAccessory)
+            if (strikeType == StrikeType.MushroomExtract && HasAccessory && HasMetal)
             {
                 KnockAccessory();
                 // Return early to ensure no damage is taken while the accessory is present
                 return false;
+            }
+            else if (strikeType == StrikeType.Normal && HasAccessory)
+            {
+                KnockAccessory();
             }
 
             // Apply damage if there is no accessory
@@ -259,6 +282,7 @@ namespace MidtermOneSWE.ConcreteZombies
         public void KnockAccessory()
         {
             HasAccessory = false;
+            HasMetal = false;
             Console.WriteLine($"{Type} Zombie's accessory knocked off!");
             var regularZombie = (RegularZombie)_zombieFactory.CreateZombie("Regular");
             regularZombie.SetHealth(this.Health);
