@@ -100,20 +100,6 @@ namespace MidtermOneSWE.ConcreteZombies
             //TransformAccessoryZombieToRegular();
         }
 
-        /*public void TakeDamage(int damage)
-        {
-            // Check if the zombie has an accessory before applying damage
-            if (HasAccessory)
-            {
-                KnockAccessory();
-                // Return early to ensure no damage is taken while the accessory is present
-                return;
-            }
-
-            // Apply damage if there is no accessory
-            Health -= damage;
-            //TransformAccessoryZombieToRegular();
-        }*/
 
         public void KnockAccessory()
         {
@@ -124,19 +110,6 @@ namespace MidtermOneSWE.ConcreteZombies
             OnTransformation?.Invoke(this, regularZombie);
         }
 
-        /*public void TakeDamage(int damage)
-        {
-            Health -= damage;
-            if (Health <= 0)
-            {
-                Health = 0;
-                Die();
-            }
-            else if (Health <= 75)
-            {
-                TransformAccessoryZombieToRegular();
-            }
-        }*/
 
         /// <summary>
         /// TransformToRegular method to convert an accessory zombie to a regular zombie.
@@ -208,20 +181,6 @@ namespace MidtermOneSWE.ConcreteZombies
             OnTransformation?.Invoke(this, regularZombie);
         }
 
-        /*public void TakeDamage(int damage)
-        {
-            Health -= damage;
-            if (Health <= 0)
-            {
-                Health = 0;
-                Die();
-            }
-            else if (Health <= 75)
-            {
-                TransformAccessoryZombieToRegular();
-            }
-        }*/
-
         private void TransformAccessoryZombieToRegular()
         {
             var regularZombie = (RegularZombie)_zombieFactory.CreateZombie("Regular");
@@ -289,20 +248,6 @@ namespace MidtermOneSWE.ConcreteZombies
             regularZombie.SetHealth(this.Health);
             OnTransformation?.Invoke(this, regularZombie);
         }
-
-        /*public void TakeDamage(int damage)
-        {
-            Health -= damage;
-            if (Health <= 0)
-            {
-                Health = 0;
-                Die();
-            }
-            else if (Health <= 75)
-            {
-                TransformAccessoryZombieToRegular();
-            }
-        }*/
 
         private void TransformAccessoryZombieToRegular()
         {

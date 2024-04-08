@@ -37,26 +37,6 @@ namespace MidtermOneSWE.Factories
         }
 
         /// <summary>
-        /// CreateZombieGroup creates a group of zombies using the Composition pattern.
-        /// </summary>
-        /// <returns>
-        /// ZombieGroup of type IZombieComponent
-        /// </returns>
-/*
-        private IZombieComponent CreateZombieGroup()
-        {
-            ZombieGroup group = new ZombieGroup();
-            int groupSize = random.Next(2, 6); // Random group size between 2 and 5
-
-            for (int i = 0; i < groupSize; i++)
-            {
-                group.Add(CreateRandomZombie());
-            }
-
-            return group;
-        }*/
-
-        /// <summary>
         /// CreateRandomZombie creates a random zombie of four given types.
         /// </summary>
         /// <returns>
