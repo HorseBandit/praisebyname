@@ -143,8 +143,6 @@ class Program
                 damage = 30;
                 break;
             case "3":
-                // Extend ShroomMagnet functionality here
-                // For demonstration, assigning a default damage value
                 damage = 0; // Set to 0 or appropriate value based on extended functionality
                 ExtendShroomMagnetFunctionality();
                 break;

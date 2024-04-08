@@ -71,7 +71,33 @@ namespace MidtermOneSWE.ConcreteZombies
         public string Type => "Cone";
         public int Health { get; private set; } = 75;
 
+        public bool HasAccessory { get; private set; } = true;
+
         public void TakeDamage(int damage)
+        {
+            // Check if the zombie has an accessory before applying damage
+            if (HasAccessory)
+            {
+                KnockAccessory();
+                // Return early to ensure no damage is taken while the accessory is present
+                return;
+            }
+
+            // Apply damage if there is no accessory
+            Health -= damage;
+            //TransformAccessoryZombieToRegular();
+        }
+
+        public void KnockAccessory()
+        {
+            HasAccessory = false;
+            Console.WriteLine($"{Type} Zombie's accessory knocked off!");
+            var regularZombie = (RegularZombie)_zombieFactory.CreateZombie("Regular");
+            regularZombie.SetHealth(this.Health);
+            OnTransformation?.Invoke(this, regularZombie);
+        }
+
+        /*public void TakeDamage(int damage)
         {
             Health -= damage;
             if (Health <= 0)
@@ -83,7 +109,7 @@ namespace MidtermOneSWE.ConcreteZombies
             {
                 TransformAccessoryZombieToRegular();
             }
-        }
+        }*/
 
         /// <summary>
         /// TransformToRegular method to convert an accessory zombie to a regular zombie.
@@ -122,7 +148,33 @@ namespace MidtermOneSWE.ConcreteZombies
         public string Type => "Bucket";
         public int Health { get; private set; } = 150;
 
+        public bool HasAccessory { get; private set; } = true;
+
         public void TakeDamage(int damage)
+        {
+            // Check if the zombie has an accessory before applying damage
+            if (HasAccessory)
+            {
+                KnockAccessory();
+                // Return early to ensure no damage is taken while the accessory is present
+                return;
+            }
+
+            // Apply damage if there is no accessory
+            Health -= damage;
+            //TransformAccessoryZombieToRegular();
+        }
+
+        public void KnockAccessory()
+        {
+            HasAccessory = false;
+            Console.WriteLine($"{Type} Zombie's accessory knocked off!");
+            var regularZombie = (RegularZombie)_zombieFactory.CreateZombie("Regular");
+            regularZombie.SetHealth(this.Health);
+            OnTransformation?.Invoke(this, regularZombie);
+        }
+
+        /*public void TakeDamage(int damage)
         {
             Health -= damage;
             if (Health <= 0)
@@ -134,7 +186,7 @@ namespace MidtermOneSWE.ConcreteZombies
             {
                 TransformAccessoryZombieToRegular();
             }
-        }
+        }*/
 
         private void TransformAccessoryZombieToRegular()
         {
@@ -170,7 +222,33 @@ namespace MidtermOneSWE.ConcreteZombies
             _zombieFactory = zombieFactory;
         }
 
+        public bool HasAccessory { get; private set; } = true;
+
         public void TakeDamage(int damage)
+        {
+            // Check if the zombie has an accessory before applying damage
+            if (HasAccessory)
+            {
+                KnockAccessory();
+                // Return early to ensure no damage is taken while the accessory is present
+                return;
+            }
+
+            // Apply damage if there is no accessory
+            Health -= damage;
+            //TransformAccessoryZombieToRegular();
+        }
+
+        public void KnockAccessory()
+        {
+            HasAccessory = false;
+            Console.WriteLine($"{Type} Zombie's accessory knocked off!");
+            var regularZombie = (RegularZombie)_zombieFactory.CreateZombie("Regular");
+            regularZombie.SetHealth(this.Health);
+            OnTransformation?.Invoke(this, regularZombie);
+        }
+
+        /*public void TakeDamage(int damage)
         {
             Health -= damage;
             if (Health <= 0)
@@ -182,7 +260,7 @@ namespace MidtermOneSWE.ConcreteZombies
             {
                 TransformAccessoryZombieToRegular();
             }
-        }
+        }*/
 
         private void TransformAccessoryZombieToRegular()
         {
