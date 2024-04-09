@@ -42,7 +42,6 @@ namespace MidtermOneSWE.Factories
                 case "Regular":
                     return baseZombie;
                 case "Cone":
-                    // Pass both IZombieFactory and GameObjectManager instances
                     return new ConeDecorator(baseZombie, this, _gameObjectManager, 75);
                 case "Bucket":
                     return new BucketDecorator(baseZombie, this, _gameObjectManager, 150);

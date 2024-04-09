@@ -24,13 +24,12 @@ namespace MidtermOneSWE.Decorators
 
         public event ZombieTransformationHandler OnTransformation;
 
-        // Adjust the constructor to accept GameObjectManager
         public ZombieDecorator(IZombieComponent zombie, IZombieFactory zombieFactory, GameObjectManager gameObjectManager)
         {
             _zombie = zombie;
             _zombieFactory = zombieFactory;
-            _gameObjectManager = gameObjectManager; // Set the GameObjectManager reference
-            HasAccessory = true; // Assuming all decorators initially have an accessory
+            _gameObjectManager = gameObjectManager;
+            HasAccessory = true;
         }
 
         public virtual void SetHealth(int newHealth)
@@ -38,7 +37,6 @@ namespace MidtermOneSWE.Decorators
             _zombie.SetHealth(newHealth);
         }
 
-        // Ensure this method is accessible to derived classes if they need to raise the event
         protected void RaiseOnTransformation(IZombieComponent oldZombie, IZombieComponent newZombie)
         {
             OnTransformation?.Invoke(oldZombie, newZombie);
@@ -46,48 +44,30 @@ namespace MidtermOneSWE.Decorators
 
         public virtual bool TakeDamage(int damage, StrikeType strikeType)
         {
-            // Delegate damage handling to the wrapped zombie object and capture if damage was taken
-            bool damageTaken = _zombie.TakeDamage(damage, strikeType);
-
-            // After damage is applied, check and enforce the non-negative health rule
-            if (_zombie.Health < 0)
-            {
-                _zombie.SetHealth(0); // Ensure the health doesn't drop below zero
-            }
-
-            return damageTaken;
-        }
-
-        /*public virtual bool TakeDamage(int damage, StrikeType strikeType)
-        {
             // Delegate damage handling to the wrapped zombie object
             return _zombie.TakeDamage(damage, strikeType);
-        }*/
+        }
 
         public void Die()
         {
             _zombie.Die();
         }
 
-        // Updated to correctly handle accessory loss and potential transformation
+        // Accessory loss and potential transformation
         protected virtual void KnockAccessory()
         {
             if (HasAccessory)
             {
                 HasAccessory = false;
-                TransformToRegular(); // Handle transformation here
+                TransformToRegular();
             }
         }
 
-        // Now centralized in the base class for all types of zombies with accessories
         protected void TransformToRegular()
         {
             IZombieComponent regularZombie = _zombieFactory.CreateZombie("Regular");
             regularZombie.SetHealth(this.Health);
-
             _gameObjectManager.ReplaceZombie(this, regularZombie);
-
-            // Optionally, notify about the transformation if there are subscribers
             OnTransformation?.Invoke(this, regularZombie);
             Console.WriteLine($"{this.Type} has lost its accessory and is now a Regular Zombie.");
         }

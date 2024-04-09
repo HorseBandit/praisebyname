@@ -21,19 +21,19 @@ namespace MidtermOneSWE.Decorators
     {
         public override string Type => "Bucket";
         public BucketDecorator(IZombieComponent zombie, IZombieFactory zombieFactory, GameObjectManager gameObjectManager, int health)
-        : base(zombie, zombieFactory, gameObjectManager) // Ensure base class also accepts and handles GameObjectManager
+        : base(zombie, zombieFactory, gameObjectManager)
         {
             this.HasAccessory = true;
             this.HasMetal = true;
             this._zombie.SetHealth(health);
-            this._gameObjectManager = gameObjectManager; // Assuming _gameObjectManager is declared in ZombieDecorator
+            this._gameObjectManager = gameObjectManager;
         }
 
         public override bool TakeDamage(int damage, StrikeType strikeType)
         {
             if (HasAccessory)
             {
-                KnockAccessory(); // Calls the base implementation which now handles transformation
+                KnockAccessory();
                 return true; // Indicates the accessory absorbed the damage
             }
             else

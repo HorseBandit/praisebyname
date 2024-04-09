@@ -13,25 +13,32 @@ namespace MidtermOneSWE.Decorators
     {
         public override string Type => "ScreenDoor";
         public ScreenDoorDecorator(IZombieComponent zombie, IZombieFactory zombieFactory, GameObjectManager gameObjectManager, int health)
-        : base(zombie, zombieFactory, gameObjectManager) // Ensure base class also accepts and handles GameObjectManager
+        : base(zombie, zombieFactory, gameObjectManager)
         {
             this.HasAccessory = true;
             this.HasMetal = true;
             this._zombie.SetHealth(health);
-            this._gameObjectManager = gameObjectManager; // Assuming _gameObjectManager is declared in ZombieDecorator
+            this._gameObjectManager = gameObjectManager; 
         }
 
         public override bool TakeDamage(int damage, StrikeType strikeType)
         {
-            if (HasAccessory)
+            // Check if the attack is with a watermelon, and if so, apply damage directly
+            if (strikeType == StrikeType.WatermelonOverhead)
             {
-                KnockAccessory(); // Calls the base implementation which now handles transformation
+                // Apply damage directly, bypassing accessory checks
+                return base._zombie.TakeDamage(damage, strikeType);
+            }
+            else if (HasAccessory)
+            {
+                // For other attacks, behave normally according to the decorator's logic
+                KnockAccessory(); 
                 return true; // Indicates the accessory absorbed the damage
             }
             else
             {
-                // Delegate damage to the wrapped component if the accessory is already lost
-                return _zombie.TakeDamage(damage, strikeType);
+                // If there's no accessory or it's already lost, delegate damage to the wrapped component
+                return base._zombie.TakeDamage(damage, strikeType);
             }
         }
     }
