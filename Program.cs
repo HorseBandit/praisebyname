@@ -8,7 +8,7 @@ using MidtermOneSWE.Utilities;
 class Program
 {
     private static GameObjectManager gameObjectManager = new GameObjectManager();
-    private static ZombieFactory zombieFactory = new ZombieFactory();
+    private static ZombieFactory zombieFactory = new ZombieFactory(gameObjectManager);
     private static GameEventManager gameEventManager = new GameEventManager(gameObjectManager);
 
     static void Main(string[] args)
@@ -44,7 +44,7 @@ class Program
 
     static void CreateZombiesPrompt()
     {
-        IZombieFactory zombieFactory = new ZombieFactory();
+        IZombieFactory zombieFactory = new ZombieFactory(gameObjectManager);
 
         string input;
         do

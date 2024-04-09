@@ -1,4 +1,5 @@
 ﻿using MidtermOneSWE.Interfaces;
+using MidtermOneSWE.Managers;
 using MidtermOneSWE.Utilities;
 using System;
 using System.Collections.Generic;
@@ -8,46 +9,30 @@ using System.Threading.Tasks;
 
 namespace MidtermOneSWE.Decorators
 {
-    class ScreendoorDecorator : ZombieDecorator
+    class ScreenDoorDecorator : ZombieDecorator
     {
         public override string Type => "ScreenDoor";
-        public ScreendoorDecorator(IZombieComponent zombie, IZombieFactory zombieFactory, int health)
-         : base(zombie, zombieFactory)
+        public ScreenDoorDecorator(IZombieComponent zombie, IZombieFactory zombieFactory, GameObjectManager gameObjectManager, int health)
+        : base(zombie, zombieFactory, gameObjectManager) // Ensure base class also accepts and handles GameObjectManager
         {
             this.HasAccessory = true;
-            this.HasMetal = true; // Assuming screendoors are considered metal
-            this._zombie.SetHealth(health); // Adjust the decorated zombie's health
+            this.HasMetal = true;
+            this._zombie.SetHealth(health);
+            this._gameObjectManager = gameObjectManager; // Assuming _gameObjectManager is declared in ZombieDecorator
         }
 
         public override bool TakeDamage(int damage, StrikeType strikeType)
         {
-            if (HasAccessory && strikeType == StrikeType.MushroomExtract && HasMetal)
+            if (HasAccessory)
             {
-                KnockAccessory();
-                return false;
+                KnockAccessory(); // Calls the base implementation which now handles transformation
+                return true; // Indicates the accessory absorbed the damage
             }
-            else if (HasAccessory && (strikeType == StrikeType.Normal || strikeType == StrikeType.WatermelonOverhead))
+            else
             {
-                KnockAccessory();
-                return false;
+                // Delegate damage to the wrapped component if the accessory is already lost
+                return _zombie.TakeDamage(damage, strikeType);
             }
-
-            return base.TakeDamage(damage, strikeType);
-        }
-
-        protected override void KnockAccessory()
-        {
-            base.KnockAccessory(); // Call to the base method if needed for common behavior
-            HasAccessory = false;
-            HasMetal = false;
-            Console.WriteLine($"{_zombie.Type} Zombie's screendoor knocked off!");
-
-            // Transform the current zombie into a RegularZombie.
-            IZombieComponent regularZombie = _zombieFactory.CreateZombie("Regular");
-            regularZombie.SetHealth(this.Health);
-
-            // Notify about the transformation
-            RaiseOnTransformation(this, regularZombie);
         }
     }
 }

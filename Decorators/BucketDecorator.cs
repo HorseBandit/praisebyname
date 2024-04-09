@@ -13,80 +13,35 @@ using System.Text;
 using System.Threading.Tasks;
 using MidtermOneSWE.Factories;
 using MidtermOneSWE.ConcreteZombies;
+using MidtermOneSWE.Managers;
 
 namespace MidtermOneSWE.Decorators
 {
     class BucketDecorator : ZombieDecorator
     {
-        //private IZombieFactory _zombieFactory;
         public override string Type => "Bucket";
-
-        public BucketDecorator(IZombieComponent zombie, IZombieFactory zombieFactory, int health)
-       : base(zombie, zombieFactory)
+        public BucketDecorator(IZombieComponent zombie, IZombieFactory zombieFactory, GameObjectManager gameObjectManager, int health)
+        : base(zombie, zombieFactory, gameObjectManager) // Ensure base class also accepts and handles GameObjectManager
         {
             this.HasAccessory = true;
             this.HasMetal = true;
-            this._zombie.SetHealth(health); // Adjust the decorated zombie's health
+            this._zombie.SetHealth(health);
+            this._gameObjectManager = gameObjectManager; // Assuming _gameObjectManager is declared in ZombieDecorator
         }
-
-        /*public BucketDecorator(IZombieComponent zombie, IZombieFactory zombieFactory) : base(zombie)
-        {
-            HasAccessory = true;
-            HasMetal = true;
-            _zombieFactory = zombieFactory;
-        }*/
-        /*public BucketDecorator(IZombieComponent zombie) : base(zombie)
-        {
-            // Assuming the bucket is a metal accessory
-            HasAccessory = true;
-            HasMetal = true;
-        }*/
 
         public override bool TakeDamage(int damage, StrikeType strikeType)
         {
-            // Specific logic for BucketDecorator
-            if (HasAccessory && strikeType == StrikeType.MushroomExtract && HasMetal)
+            if (HasAccessory)
             {
-                KnockAccessory();
-                // If it's a MushroomExtract attack and the zombie has a metal accessory (bucket),
-                // the accessory is removed, but no damage is taken.
-                return false;
+                KnockAccessory(); // Calls the base implementation which now handles transformation
+                return true; // Indicates the accessory absorbed the damage
             }
-            else if (HasAccessory && (strikeType == StrikeType.Normal || strikeType == StrikeType.WatermelonOverhead))
+            else
             {
-                // If the zombie is hit by a normal or WatermelonOverhead strike, the bucket is removed,
-                // but let's assume in this case it does protect the zombie one time, so no damage is taken.
-                KnockAccessory();
-                return false;
-            }
-
-            // If the accessory is already knocked off or the attack doesn't target the accessory specifically,
-            // delegate the damage to the wrapped zombie object.
-            return _zombie.TakeDamage(damage, strikeType);
-        }
-
-        protected override void KnockAccessory()
-        {
-            base.KnockAccessory(); // Adjust HasAccessory and HasMetal as needed.
-            Console.WriteLine($"{_zombie.Type} Zombie's bucket knocked off!");
-
-            // Transform the current zombie into a RegularZombie.
-            IZombieComponent regularZombie = _zombieFactory.CreateZombie("Regular");
-            if (regularZombie is RegularZombie rz)
-            {
-                rz.SetHealth(this.Health);
-
-                // Use the protected method to raise the event
-                RaiseOnTransformation(this, regularZombie);
+                // Delegate damage to the wrapped component if the accessory is already lost
+                return _zombie.TakeDamage(damage, strikeType);
             }
         }
-
-        /*private void KnockAccessory()
-        {
-            HasAccessory = false;
-            HasMetal = false; // Once the bucket is knocked off, it's no longer metal-affected.
-            Console.WriteLine($"{_zombie.Type} Zombie's bucket knocked off!");
-        }*/
     }
 }
 

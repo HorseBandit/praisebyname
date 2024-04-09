@@ -1,5 +1,6 @@
 ﻿using MidtermOneSWE.ConcreteZombies;
 using MidtermOneSWE.Interfaces;
+using MidtermOneSWE.Managers;
 using MidtermOneSWE.Utilities;
 using System;
 using System.Collections.Generic;
@@ -14,6 +15,7 @@ namespace MidtermOneSWE.Decorators
     {
         protected IZombieComponent _zombie;
         protected IZombieFactory _zombieFactory;
+        protected GameObjectManager _gameObjectManager;
 
         public virtual string Type => _zombie.Type;
         public int Health => _zombie.Health;
@@ -22,18 +24,21 @@ namespace MidtermOneSWE.Decorators
 
         public event ZombieTransformationHandler OnTransformation;
 
-        public ZombieDecorator(IZombieComponent zombie, IZombieFactory zombieFactory)
+        // Adjust the constructor to accept GameObjectManager
+        public ZombieDecorator(IZombieComponent zombie, IZombieFactory zombieFactory, GameObjectManager gameObjectManager)
         {
             _zombie = zombie;
             _zombieFactory = zombieFactory;
+            _gameObjectManager = gameObjectManager; // Set the GameObjectManager reference
             HasAccessory = true; // Assuming all decorators initially have an accessory
         }
 
-        public void SetHealth(int newHealth)
+        public virtual void SetHealth(int newHealth)
         {
             _zombie.SetHealth(newHealth);
         }
 
+        // Ensure this method is accessible to derived classes if they need to raise the event
         protected void RaiseOnTransformation(IZombieComponent oldZombie, IZombieComponent newZombie)
         {
             OnTransformation?.Invoke(oldZombie, newZombie);
@@ -50,22 +55,27 @@ namespace MidtermOneSWE.Decorators
             _zombie.Die();
         }
 
+        // Updated to correctly handle accessory loss and potential transformation
         protected virtual void KnockAccessory()
         {
-            HasAccessory = false;
-            Console.WriteLine($"{Type} Zombie's accessory knocked off!");
-
-            // This method should handle the transformation to a regular zombie if needed.
-            // Since this is a base class method, specific decorators may choose to override this behavior.
-            if (this.GetType() != typeof(RegularZombie)) // Ensure not already a RegularZombie
+            if (HasAccessory)
             {
-                // Assuming RegularZombie transformation logic here; adjust as necessary.
-                IZombieComponent regularZombie = _zombieFactory.CreateZombie("Regular");
-                regularZombie.SetHealth(this.Health);
-
-                // Invoke the transformation event if subscribers exist
-                OnTransformation?.Invoke(this, regularZombie);
+                HasAccessory = false;
+                TransformToRegular(); // Handle transformation here
             }
+        }
+
+        // Now centralized in the base class for all types of zombies with accessories
+        protected void TransformToRegular()
+        {
+            IZombieComponent regularZombie = _zombieFactory.CreateZombie("Regular");
+            regularZombie.SetHealth(this.Health);
+
+            _gameObjectManager.ReplaceZombie(this, regularZombie);
+
+            // Optionally, notify about the transformation if there are subscribers
+            OnTransformation?.Invoke(this, regularZombie);
+            Console.WriteLine($"{this.Type} has lost its accessory and is now a Regular Zombie.");
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using MidtermOneSWE.ConcreteZombies;
 using MidtermOneSWE.Decorators;
 using MidtermOneSWE.Interfaces;
+using MidtermOneSWE.Managers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,6 +17,14 @@ namespace MidtermOneSWE.Factories
     {
         private Random random = new Random();
 
+        private GameObjectManager _gameObjectManager;
+
+        // Constructor to set GameObjectManager
+        public ZombieFactory(GameObjectManager gameObjectManager)
+        {
+            _gameObjectManager = gameObjectManager;
+        }
+
         /// <summary>
         /// CreateZombie single method for creating all types of zombies using the zombie factory.
         /// </summary>
@@ -27,16 +36,18 @@ namespace MidtermOneSWE.Factories
         /// 
         public IZombieComponent CreateZombie(string type)
         {
+            IZombieComponent baseZombie = new RegularZombie(); // Base zombie for decorators
             switch (type)
             {
                 case "Regular":
-                    return new RegularZombie(); // RegularZombie constructor sets health to 50 by default.
+                    return baseZombie;
                 case "Cone":
-                    return new ConeDecorator(new RegularZombie(), this, 75); // Pass health value to the constructor.
+                    // Pass both IZombieFactory and GameObjectManager instances
+                    return new ConeDecorator(baseZombie, this, _gameObjectManager, 75);
                 case "Bucket":
-                    return new BucketDecorator(new RegularZombie(), this, 150); // Pass health value to the constructor.
+                    return new BucketDecorator(baseZombie, this, _gameObjectManager, 150);
                 case "Screendoor":
-                    return new ScreendoorDecorator(new RegularZombie(), this, 75); // Pass health value to the constructor.
+                    return new ScreenDoorDecorator(baseZombie, this, _gameObjectManager, 75);
                 default:
                     throw new ArgumentException("Invalid zombie type", nameof(type));
             }

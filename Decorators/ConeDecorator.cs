@@ -1,4 +1,5 @@
 ﻿using MidtermOneSWE.Interfaces;
+using MidtermOneSWE.Managers;
 using MidtermOneSWE.Utilities;
 using System;
 using System.Collections.Generic;
@@ -10,44 +11,46 @@ namespace MidtermOneSWE.Decorators
 {
     class ConeDecorator : ZombieDecorator
     {
-        /*public ConeDecorator(IZombieComponent zombie, IZombieFactory zombieFactory)
-            : base(zombie, zombieFactory) // Ensure the factory is passed to the base class
-        {
-            HasAccessory = true;
-            HasMetal = false; // Assuming cones are not metal
-        }*/
         public override string Type => "Cone";
-
-        public ConeDecorator(IZombieComponent zombie, IZombieFactory zombieFactory, int health) : base(zombie, zombieFactory)
+        public ConeDecorator(IZombieComponent zombie, IZombieFactory zombieFactory, GameObjectManager gameObjectManager, int health)
+        : base(zombie, zombieFactory, gameObjectManager) // Ensure base class also accepts and handles GameObjectManager
         {
-            this.HasAccessory = true; // Assuming cones are not metal.
+            this.HasAccessory = true;
             this.HasMetal = false;
-            this._zombie.SetHealth(health); // Directly set the health of the decorated zombie.
+            this._zombie.SetHealth(health);
+            this._gameObjectManager = gameObjectManager; // Assuming _gameObjectManager is declared in ZombieDecorator
         }
 
         public override bool TakeDamage(int damage, StrikeType strikeType)
         {
-            // Specific logic for ConeDecorator
-            if (HasAccessory && (strikeType == StrikeType.Normal || strikeType == StrikeType.WatermelonOverhead))
+            if (HasAccessory)
             {
-                KnockAccessory();
-                return false; // Indicates the accessory was knocked off but no damage was taken
+                KnockAccessory(); // Calls the base implementation which now handles transformation
+                return true; // Indicates the accessory absorbed the damage
             }
-            return base.TakeDamage(damage, strikeType); // Delegate to the wrapped zombie object if no accessory logic is triggered
+            else
+            {
+                // Delegate damage to the wrapped component if the accessory is already lost
+                return _zombie.TakeDamage(damage, strikeType);
+            }
         }
 
-        protected override void KnockAccessory()
+
+        /*protected void TransformToRegular()
         {
-            base.KnockAccessory(); // Call to the base method for any common behavior
-            HasAccessory = false;
-            Console.WriteLine($"{_zombie.Type} Zombie's cone knocked off!");
-
-            // Transform the current zombie into a RegularZombie.
             IZombieComponent regularZombie = _zombieFactory.CreateZombie("Regular");
-            regularZombie.SetHealth(this.Health);
 
-            // Notify about the transformation
-            RaiseOnTransformation(this, regularZombie);
-        }
+            // Assuming '_gameObjectManager' is a field set to the instance of GameObjectManager available to this decorator.
+            _gameObjectManager.ReplaceZombie(this, regularZombie);
+
+            Console.WriteLine($"{this.Type} has lost its accessory and is now a Regular Zombie.");
+        }*/
+
+        /*protected override void KnockAccessory()
+        {
+            HasAccessory = false;
+            // Print a message about losing the accessory, if not handled elsewhere
+            TransformToRegular(); // Handles transforming into a regular zombie
+        }*/
     }
 }
