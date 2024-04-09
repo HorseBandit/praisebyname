@@ -46,9 +46,23 @@ namespace MidtermOneSWE.Decorators
 
         public virtual bool TakeDamage(int damage, StrikeType strikeType)
         {
+            // Delegate damage handling to the wrapped zombie object and capture if damage was taken
+            bool damageTaken = _zombie.TakeDamage(damage, strikeType);
+
+            // After damage is applied, check and enforce the non-negative health rule
+            if (_zombie.Health < 0)
+            {
+                _zombie.SetHealth(0); // Ensure the health doesn't drop below zero
+            }
+
+            return damageTaken;
+        }
+
+        /*public virtual bool TakeDamage(int damage, StrikeType strikeType)
+        {
             // Delegate damage handling to the wrapped zombie object
             return _zombie.TakeDamage(damage, strikeType);
-        }
+        }*/
 
         public void Die()
         {
@@ -79,4 +93,3 @@ namespace MidtermOneSWE.Decorators
         }
     }
 }
-

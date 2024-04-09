@@ -32,6 +32,7 @@ namespace MidtermOneSWE.ConcreteZombies
             Health -= damage;
             if (Health <= 0)
             {
+                Health = 0;
                 Die();
             }
             return true; // Indicates damage was taken
