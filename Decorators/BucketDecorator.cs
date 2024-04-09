@@ -19,12 +19,14 @@ namespace MidtermOneSWE.Decorators
     class BucketDecorator : ZombieDecorator
     {
         //private IZombieFactory _zombieFactory;
+        public override string Type => "Bucket";
 
-        public BucketDecorator(IZombieComponent zombie, IZombieFactory zombieFactory)
-            : base(zombie, zombieFactory) // Ensure the factory is passed to the base class
+        public BucketDecorator(IZombieComponent zombie, IZombieFactory zombieFactory, int health)
+       : base(zombie, zombieFactory)
         {
-            HasAccessory = true;
-            HasMetal = true; // Buckets are metal
+            this.HasAccessory = true;
+            this.HasMetal = true;
+            this._zombie.SetHealth(health); // Adjust the decorated zombie's health
         }
 
         /*public BucketDecorator(IZombieComponent zombie, IZombieFactory zombieFactory) : base(zombie)

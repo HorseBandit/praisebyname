@@ -10,11 +10,19 @@ namespace MidtermOneSWE.Decorators
 {
     class ConeDecorator : ZombieDecorator
     {
-        public ConeDecorator(IZombieComponent zombie, IZombieFactory zombieFactory)
+        /*public ConeDecorator(IZombieComponent zombie, IZombieFactory zombieFactory)
             : base(zombie, zombieFactory) // Ensure the factory is passed to the base class
         {
             HasAccessory = true;
             HasMetal = false; // Assuming cones are not metal
+        }*/
+        public override string Type => "Cone";
+
+        public ConeDecorator(IZombieComponent zombie, IZombieFactory zombieFactory, int health) : base(zombie, zombieFactory)
+        {
+            this.HasAccessory = true; // Assuming cones are not metal.
+            this.HasMetal = false;
+            this._zombie.SetHealth(health); // Directly set the health of the decorated zombie.
         }
 
         public override bool TakeDamage(int damage, StrikeType strikeType)

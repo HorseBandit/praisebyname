@@ -1,4 +1,5 @@
-﻿using MidtermOneSWE.Utilities;
+﻿using MidtermOneSWE.Interfaces;
+using MidtermOneSWE.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,6 +15,11 @@ namespace MidtermOneSWE.Managers
         public GameEventManager(GameObjectManager manager)
         {
             this.gameObjectManager = manager;
+        }
+
+        public void RequestZombieTransformation(IZombieComponent oldZombie, IZombieComponent newZombie)
+        {
+            gameObjectManager.HandleZombieTransformation(oldZombie, newZombie);
         }
 
         public void SimulateCollisionDetection(int plantType)
@@ -40,6 +46,8 @@ namespace MidtermOneSWE.Managers
                 }
             }
         }
+
+
 
         // Additional methods to simulate other types of collisions or interactions
     }

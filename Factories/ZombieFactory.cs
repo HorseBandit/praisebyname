@@ -27,15 +27,19 @@ namespace MidtermOneSWE.Factories
         /// 
         public IZombieComponent CreateZombie(string type)
         {
-            IZombieComponent baseZombie = new RegularZombie();
-            return type switch
+            switch (type)
             {
-                "Regular" => baseZombie,
-                "Cone" => new ConeDecorator(baseZombie, this), // Pass 'this' factory for potential transformation
-                "Bucket" => new BucketDecorator(baseZombie, this), // Pass 'this' factory
-                "Screendoor" => new ScreendoorDecorator(baseZombie, this), // Pass 'this' factory
-                _ => throw new ArgumentException("Invalid zombie type", nameof(type)),
-            };
+                case "Regular":
+                    return new RegularZombie(); // RegularZombie constructor sets health to 50 by default.
+                case "Cone":
+                    return new ConeDecorator(new RegularZombie(), this, 75); // Pass health value to the constructor.
+                case "Bucket":
+                    return new BucketDecorator(new RegularZombie(), this, 150); // Pass health value to the constructor.
+                case "Screendoor":
+                    return new ScreendoorDecorator(new RegularZombie(), this, 75); // Pass health value to the constructor.
+                default:
+                    throw new ArgumentException("Invalid zombie type", nameof(type));
+            }
         }
 
         /// <summary>

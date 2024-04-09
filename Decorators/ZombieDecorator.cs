@@ -15,7 +15,7 @@ namespace MidtermOneSWE.Decorators
         protected IZombieComponent _zombie;
         protected IZombieFactory _zombieFactory;
 
-        public string Type => _zombie.Type;
+        public virtual string Type => _zombie.Type;
         public int Health => _zombie.Health;
         public bool HasAccessory { get; protected set; }
         public bool HasMetal { get; protected set; }

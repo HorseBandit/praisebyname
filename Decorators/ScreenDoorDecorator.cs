@@ -10,12 +10,13 @@ namespace MidtermOneSWE.Decorators
 {
     class ScreendoorDecorator : ZombieDecorator
     {
-        public ScreendoorDecorator(IZombieComponent zombie, IZombieFactory zombieFactory)
-            : base(zombie, zombieFactory) // Pass the factory to the base class
+        public override string Type => "ScreenDoor";
+        public ScreendoorDecorator(IZombieComponent zombie, IZombieFactory zombieFactory, int health)
+         : base(zombie, zombieFactory)
         {
-            // Assuming the screendoor is a metal accessory
-            HasAccessory = true;
-            HasMetal = true;
+            this.HasAccessory = true;
+            this.HasMetal = true; // Assuming screendoors are considered metal
+            this._zombie.SetHealth(health); // Adjust the decorated zombie's health
         }
 
         public override bool TakeDamage(int damage, StrikeType strikeType)
