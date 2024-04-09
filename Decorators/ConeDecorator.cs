@@ -39,18 +39,5 @@ namespace MidtermOneSWE.Decorators
                 return (true, DmgOutcome.DamageDealt);
             }
         }
-        /*public override bool TakeDamage(int damage, StrikeType strikeType)
-        {
-            if (HasAccessory)
-            {
-                KnockAccessory();
-                return true; // Indicates the accessory absorbed the damage
-            }
-            else
-            {
-                // Delegate damage to the wrapped component if the accessory is already lost
-                return _zombie.TakeDamage(damage, strikeType);
-            }
-        }*/
     }
 }

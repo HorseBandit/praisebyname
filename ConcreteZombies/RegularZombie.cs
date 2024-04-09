@@ -27,9 +27,6 @@ namespace MidtermOneSWE.ConcreteZombies
         public RegularZombie() { }
         public (bool success, DmgOutcome outcome) TakeDamage(int damage, StrikeType strikeType)
         {
-            // If the strike type is something that RegularZombie should be immune to, adjust logic here
-            // For now, assuming all damage is taken as usual
-
             if (damage <= 0)
             {
                 return (false, DmgOutcome.NoEffect); // No damage taken, no effect
@@ -54,12 +51,5 @@ namespace MidtermOneSWE.ConcreteZombies
         {
             Console.WriteLine($"{Type} Zombie has died!");
         }
-
-        // Utility method to handle the transformation process
-       /* protected void TransformToRegular()
-        {
-            Console.WriteLine($"{Type} Zombie is transforming into a Regular Zombie.");
-            OnTransformation?.Invoke(this, new RegularZombie());
-        }*/
     }
 }

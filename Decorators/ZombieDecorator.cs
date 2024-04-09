@@ -53,7 +53,7 @@ namespace MidtermOneSWE.Decorators
             _zombie.Die();
         }
 
-        // Accessory loss and potential transformation
+        // Accessory loss and transformation
         protected virtual void KnockAccessory()
         {
             if (HasAccessory)

@@ -24,7 +24,6 @@ namespace MidtermOneSWE.Managers
 
         public void SimulateCollisionDetection(int plantType)
         {
-            // Example of how to access and interact with zombies
             foreach (var zombie in gameObjectManager.GetAllZombies())
             {
                 switch (plantType)
@@ -41,6 +40,5 @@ namespace MidtermOneSWE.Managers
                 }
             }
         }
-        // Additional methods to simulate other types of collisions or interactions
     }
 }
