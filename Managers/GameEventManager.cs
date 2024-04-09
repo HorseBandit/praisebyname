@@ -36,19 +36,11 @@ namespace MidtermOneSWE.Managers
                         zombie.TakeDamage(30, StrikeType.WatermelonOverhead);
                         break;
                     case 3: // Magnet-shroom attack
-                        // Assuming a way to determine if a zombie has a metal accessory
-                        if (zombie.HasMetal)
-                        {
-                            // Implement logic to remove metal accessory
-                            // This might involve transforming the zombie
-                        }
+                        zombie.TakeDamage(0, StrikeType.MushroomExtract);
                         break;
                 }
             }
         }
-
-
-
         // Additional methods to simulate other types of collisions or interactions
     }
 }

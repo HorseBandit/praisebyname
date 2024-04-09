@@ -31,15 +31,20 @@ namespace MidtermOneSWE.Decorators
 
         public override bool TakeDamage(int damage, StrikeType strikeType)
         {
-            if (HasAccessory)
+            if (strikeType == StrikeType.MushroomExtract && HasMetal)
+            {
+                KnockAccessory();
+                return false;
+            }
+            else if (HasAccessory)
             {
                 KnockAccessory();
                 return true; // Indicates the accessory absorbed the damage
             }
             else
             {
-                // Delegate damage to the wrapped component if the accessory is already lost
-                return _zombie.TakeDamage(damage, strikeType);
+                // If there's no accessory or it's already lost, delegate damage to the wrapped component
+                return base._zombie.TakeDamage(damage, strikeType);
             }
         }
     }

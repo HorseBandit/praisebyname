@@ -23,8 +23,12 @@ namespace MidtermOneSWE.Decorators
 
         public override bool TakeDamage(int damage, StrikeType strikeType)
         {
-            // Check if the attack is with a watermelon, and if so, apply damage directly
-            if (strikeType == StrikeType.WatermelonOverhead)
+            if (strikeType == StrikeType.MushroomExtract && HasMetal)
+            {
+                KnockAccessory(); // Remove the screendoor accessory
+                return false; // Indicate no damage was dealt
+            }
+            else if (strikeType == StrikeType.WatermelonOverhead)
             {
                 // Apply damage directly, bypassing accessory checks
                 return base._zombie.TakeDamage(damage, strikeType);
@@ -32,7 +36,7 @@ namespace MidtermOneSWE.Decorators
             else if (HasAccessory)
             {
                 // For other attacks, behave normally according to the decorator's logic
-                KnockAccessory(); 
+                KnockAccessory();
                 return true; // Indicates the accessory absorbed the damage
             }
             else

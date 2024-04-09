@@ -21,7 +21,6 @@ namespace MidtermOneSWE.ConcreteZombies
         public void SetHealth(int newHealth)
         {
             Health = newHealth;
-            // Additional logic can be added here if needed, such as checking for zombie death
         }
 
         // Constructor
@@ -44,13 +43,10 @@ namespace MidtermOneSWE.ConcreteZombies
         }
 
         // Utility method to handle the transformation process
-        protected void TransformToRegular()
+       /* protected void TransformToRegular()
         {
-            // Example transformation logic - can be customized
-            // This is just a placeholder to show where and how you might handle transformation
-            // In reality, transformation logic might involve notifying some manager or factory to replace the object
             Console.WriteLine($"{Type} Zombie is transforming into a Regular Zombie.");
-            OnTransformation?.Invoke(this, new RegularZombie()); // Creates a new RegularZombie instance
-        }
+            OnTransformation?.Invoke(this, new RegularZombie());
+        }*/
     }
 }
