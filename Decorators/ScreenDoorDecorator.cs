@@ -8,29 +8,45 @@ using System.Threading.Tasks;
 
 namespace MidtermOneSWE.Decorators
 {
-    class ScreenDoorDecorator : ZombieDecorator
+    class ScreendoorDecorator : ZombieDecorator
     {
-        public ScreenDoorDecorator(IZombieComponent zombie) : base(zombie)
+        public ScreendoorDecorator(IZombieComponent zombie, IZombieFactory zombieFactory)
+            : base(zombie, zombieFactory) // Pass the factory to the base class
         {
+            // Assuming the screendoor is a metal accessory
             HasAccessory = true;
-            HasMetal = false; // Assuming cones are not metal
+            HasMetal = true;
         }
 
         public override bool TakeDamage(int damage, StrikeType strikeType)
         {
-            // Specific logic for BucketDecorator
-            if (HasAccessory && (strikeType == StrikeType.Normal || strikeType == StrikeType.WatermelonOverhead))
+            if (HasAccessory && strikeType == StrikeType.MushroomExtract && HasMetal)
             {
                 KnockAccessory();
                 return false;
             }
-            return _zombie.TakeDamage(damage, strikeType);
+            else if (HasAccessory && (strikeType == StrikeType.Normal || strikeType == StrikeType.WatermelonOverhead))
+            {
+                KnockAccessory();
+                return false;
+            }
+
+            return base.TakeDamage(damage, strikeType);
         }
 
-        private void KnockAccessory()
+        protected override void KnockAccessory()
         {
+            base.KnockAccessory(); // Call to the base method if needed for common behavior
             HasAccessory = false;
-            Console.WriteLine($"{Type} Zombie's cone knocked off!");
+            HasMetal = false;
+            Console.WriteLine($"{_zombie.Type} Zombie's screendoor knocked off!");
+
+            // Transform the current zombie into a RegularZombie.
+            IZombieComponent regularZombie = _zombieFactory.CreateZombie("Regular");
+            regularZombie.SetHealth(this.Health);
+
+            // Notify about the transformation
+            RaiseOnTransformation(this, regularZombie);
         }
     }
 }

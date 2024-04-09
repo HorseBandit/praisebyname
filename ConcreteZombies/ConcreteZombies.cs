@@ -1,4 +1,4 @@
-﻿using MidtermOneSWE.Factories;
+﻿/*using MidtermOneSWE.Factories;
 using MidtermOneSWE.Interfaces;
 using MidtermOneSWE.Utilities;
 using System;
@@ -270,3 +270,4 @@ namespace MidtermOneSWE.ConcreteZombies
         }
     }
 }
+*/

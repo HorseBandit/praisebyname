@@ -62,7 +62,6 @@ class Program
             Console.WriteLine("2. Cone");
             Console.WriteLine("3. Bucket");
             Console.WriteLine("4. Screendoor");
-            Console.WriteLine("5. ZombieGroup");
             Console.WriteLine();
             Console.WriteLine("Press 'z' to finish creating zombies.");
             Console.Write("Select a type of zombie: ");
@@ -77,7 +76,6 @@ class Program
                     "2" => zombieFactory.CreateZombie("Cone"),
                     "3" => zombieFactory.CreateZombie("Bucket"),
                     "4" => zombieFactory.CreateZombie("Screendoor"),
-                    "5" => zombieFactory.CreateZombie("Group"),
                     "z" => null,
                     _ => throw new ArgumentException("Invalid zombie type", nameof(input)),
                 };

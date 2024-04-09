@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("MidtermOneSWE")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+fdbf8044b7434494d76e382bfb1bb6ad85e2d3be")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+9508be858b7088c3cc6518f74c1194b3f93c8cd4")]
 [assembly: System.Reflection.AssemblyProductAttribute("MidtermOneSWE")]
 [assembly: System.Reflection.AssemblyTitleAttribute("MidtermOneSWE")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
