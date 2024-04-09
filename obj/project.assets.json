@@ -14,9 +14,9 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\jrodm\\source\\repos\\MidtermOneSWE\\MidtermOneSWE.csproj",
-      "projectName": "MidtermOneSWE",
-      "projectPath": "C:\\Users\\jrodm\\source\\repos\\MidtermOneSWE\\MidtermOneSWE.csproj",
+      "projectUniqueName": "C:\\Users\\jrodm\\source\\repos\\MidtermOneSWE\\MidtermTwoSWE.csproj",
+      "projectName": "MidtermTwoSWE",
+      "projectPath": "C:\\Users\\jrodm\\source\\repos\\MidtermOneSWE\\MidtermTwoSWE.csproj",
       "packagesPath": "C:\\Users\\jrodm\\.nuget\\packages\\",
       "outputPath": "C:\\Users\\jrodm\\source\\repos\\MidtermOneSWE\\obj\\",
       "projectStyle": "PackageReference",

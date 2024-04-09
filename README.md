@@ -1,4 +1,4 @@
-﻿Jerrod Estell Midterm 1 Zombie Design Patterns and Game Demo
+﻿Jerrod Estell Midterm 2 Zombie Design Patterns and Game Demo
 
 Built using Microsoft Visual Studio Community 2022 (64-bit) - Current
 Microsoft .NET Framework

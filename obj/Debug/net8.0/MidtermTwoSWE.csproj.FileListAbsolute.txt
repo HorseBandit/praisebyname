@@ -1,0 +1,15 @@
+C:\Users\jrodm\source\repos\MidtermOneSWE\bin\Debug\net8.0\MidtermTwoSWE.exe
+C:\Users\jrodm\source\repos\MidtermOneSWE\bin\Debug\net8.0\MidtermTwoSWE.deps.json
+C:\Users\jrodm\source\repos\MidtermOneSWE\bin\Debug\net8.0\MidtermTwoSWE.runtimeconfig.json
+C:\Users\jrodm\source\repos\MidtermOneSWE\bin\Debug\net8.0\MidtermTwoSWE.dll
+C:\Users\jrodm\source\repos\MidtermOneSWE\bin\Debug\net8.0\MidtermTwoSWE.pdb
+C:\Users\jrodm\source\repos\MidtermOneSWE\obj\Debug\net8.0\MidtermTwoSWE.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\jrodm\source\repos\MidtermOneSWE\obj\Debug\net8.0\MidtermTwoSWE.AssemblyInfoInputs.cache
+C:\Users\jrodm\source\repos\MidtermOneSWE\obj\Debug\net8.0\MidtermTwoSWE.AssemblyInfo.cs
+C:\Users\jrodm\source\repos\MidtermOneSWE\obj\Debug\net8.0\MidtermTwoSWE.csproj.CoreCompileInputs.cache
+C:\Users\jrodm\source\repos\MidtermOneSWE\obj\Debug\net8.0\MidtermTwoSWE.sourcelink.json
+C:\Users\jrodm\source\repos\MidtermOneSWE\obj\Debug\net8.0\MidtermTwoSWE.dll
+C:\Users\jrodm\source\repos\MidtermOneSWE\obj\Debug\net8.0\refint\MidtermTwoSWE.dll
+C:\Users\jrodm\source\repos\MidtermOneSWE\obj\Debug\net8.0\MidtermTwoSWE.pdb
+C:\Users\jrodm\source\repos\MidtermOneSWE\obj\Debug\net8.0\MidtermTwoSWE.genruntimeconfig.cache
+C:\Users\jrodm\source\repos\MidtermOneSWE\obj\Debug\net8.0\ref\MidtermTwoSWE.dll
