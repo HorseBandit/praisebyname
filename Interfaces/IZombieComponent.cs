@@ -17,7 +17,9 @@ namespace MidtermOneSWE.Interfaces
         bool HasAccessory { get; }
         bool HasMetal { get; }
 
-        bool TakeDamage(int damage, StrikeType strikeType);
+        (bool success, DmgOutcome outcome) TakeDamage(int damage, StrikeType strikeType);
+
+        //bool TakeDamage(int damage, StrikeType strikeType);
         void Die();
         void SetHealth(int newHealth);
     }

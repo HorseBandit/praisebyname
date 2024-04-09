@@ -42,10 +42,10 @@ namespace MidtermOneSWE.Decorators
             OnTransformation?.Invoke(oldZombie, newZombie);
         }
 
-        public virtual bool TakeDamage(int damage, StrikeType strikeType)
+        public virtual (bool success, DmgOutcome outcome) TakeDamage(int damage, StrikeType strikeType)
         {
-            // Delegate damage handling to the wrapped zombie object
-            return _zombie.TakeDamage(damage, strikeType);
+            var result = _zombie.TakeDamage(damage, strikeType);
+            return result; // Return the result of the damage process.
         }
 
         public void Die()

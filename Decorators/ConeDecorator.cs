@@ -21,7 +21,25 @@ namespace MidtermOneSWE.Decorators
             this._gameObjectManager = gameObjectManager; 
         }
 
-        public override bool TakeDamage(int damage, StrikeType strikeType)
+        public override (bool success, DmgOutcome outcome) TakeDamage(int damage, StrikeType strikeType)
+        {
+            if(HasAccessory)
+            {
+                KnockAccessory();
+                // Apply damage directly, bypassing accessory checks
+                return (false, DmgOutcome.AccessoryRemoved);
+            }
+            else if (strikeType == StrikeType.WatermelonOverhead || strikeType == StrikeType.Normal)
+            {
+                return (true, DmgOutcome.DamageDealt); // Indicates the accessory absorbed the damage
+            }
+            else
+            {
+                // If there's no accessory or it's already lost, delegate damage to the wrapped component
+                return (true, DmgOutcome.DamageDealt);
+            }
+        }
+        /*public override bool TakeDamage(int damage, StrikeType strikeType)
         {
             if (HasAccessory)
             {
@@ -33,6 +51,6 @@ namespace MidtermOneSWE.Decorators
                 // Delegate damage to the wrapped component if the accessory is already lost
                 return _zombie.TakeDamage(damage, strikeType);
             }
-        }
+        }*/
     }
 }

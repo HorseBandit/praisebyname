@@ -25,16 +25,29 @@ namespace MidtermOneSWE.ConcreteZombies
 
         // Constructor
         public RegularZombie() { }
-
-        public bool TakeDamage(int damage, StrikeType strikeType)
+        public (bool success, DmgOutcome outcome) TakeDamage(int damage, StrikeType strikeType)
         {
-            Health -= damage;
-            if (Health <= 0)
+            // If the strike type is something that RegularZombie should be immune to, adjust logic here
+            // For now, assuming all damage is taken as usual
+
+            if (damage <= 0)
             {
-                Health = 0;
-                Die();
+                return (false, DmgOutcome.NoEffect); // No damage taken, no effect
             }
-            return true; // Indicates damage was taken
+
+            Health -= damage;
+            if (Health < 0)
+            {
+                Health = 0; // Ensure health does not drop below zero
+            }
+
+            if (Health == 0)
+            {
+                Die(); // Trigger the death process
+                return (true, DmgOutcome.DamageDealt); // Damage led to zombie's demise
+            }
+
+            return (true, DmgOutcome.DamageDealt); // Damage was successfully dealt
         }
 
         public void Die()

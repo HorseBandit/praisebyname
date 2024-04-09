@@ -21,28 +21,27 @@ namespace MidtermOneSWE.Decorators
             this._gameObjectManager = gameObjectManager; 
         }
 
-        public override bool TakeDamage(int damage, StrikeType strikeType)
+        public override (bool success, DmgOutcome outcome) TakeDamage(int damage, StrikeType strikeType)
         {
             if (strikeType == StrikeType.MushroomExtract && HasMetal)
             {
                 KnockAccessory(); // Remove the screendoor accessory
-                return false; // Indicate no damage was dealt
+                return (false, DmgOutcome.AccessoryRemoved); // Indicate no damage was dealt
             }
             else if (strikeType == StrikeType.WatermelonOverhead)
             {
-                // Apply damage directly, bypassing accessory checks
-                return base._zombie.TakeDamage(damage, strikeType);
+                var result = base._zombie.TakeDamage(damage, strikeType);
+                return (result.success, result.outcome == DmgOutcome.DamageDealt ? DmgOutcome.DamageDealt : DmgOutcome.NoEffect);
             }
             else if (HasAccessory)
             {
-                // For other attacks, behave normally according to the decorator's logic
                 KnockAccessory();
-                return true; // Indicates the accessory absorbed the damage
+                return (false, DmgOutcome.AccessoryRemoved); // Indicates the accessory absorbed the damage
             }
             else
             {
                 // If there's no accessory or it's already lost, delegate damage to the wrapped component
-                return base._zombie.TakeDamage(damage, strikeType);
+                return (true, DmgOutcome.DamageDealt);
             }
         }
     }
