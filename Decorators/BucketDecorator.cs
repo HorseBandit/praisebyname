@@ -18,13 +18,13 @@ namespace MidtermOneSWE.Decorators
 {
     class BucketDecorator : ZombieDecorator
     {
-        private IZombieFactory _zombieFactory;
+        //private IZombieFactory _zombieFactory;
 
         public BucketDecorator(IZombieComponent zombie, IZombieFactory zombieFactory)
             : base(zombie, zombieFactory) // Ensure the factory is passed to the base class
         {
             HasAccessory = true;
-            HasMetal = false; // Assuming cones are not metal
+            HasMetal = true; // Buckets are metal
         }
 
         /*public BucketDecorator(IZombieComponent zombie, IZombieFactory zombieFactory) : base(zombie)

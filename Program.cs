@@ -2,19 +2,15 @@
 using MidtermOneSWE.ConcreteZombies;
 using MidtermOneSWE.Factories;
 using MidtermOneSWE.Interfaces;
+using MidtermOneSWE.Managers;
 using MidtermOneSWE.Utilities;
 
 class Program
 {
-    static List<IZombieComponent> zombies = new List<IZombieComponent>();
-    private static StrikeType strikeType;
+    private static GameObjectManager gameObjectManager = new GameObjectManager();
+    private static ZombieFactory zombieFactory = new ZombieFactory();
+    private static GameEventManager gameEventManager = new GameEventManager(gameObjectManager);
 
-    //public StrikeType StrikeType { get; set; }
-
-    /// <summary>
-    /// Main driver code.
-    /// </summary>
-    /// <param name="args"></param>
     static void Main(string[] args)
     {
         bool exit = false;
@@ -34,7 +30,7 @@ class Program
                     CreateZombiesPrompt();
                     break;
                 case "2":
-                    DemoGameplay(GetStrikeType());
+                    DemoGameplay();
                     break;
                 case "3":
                     exit = true;
@@ -46,13 +42,8 @@ class Program
         }
     }
 
-    /// <summary>
-    /// Create zombies static method to take user input and create an appropriate zombie.
-    /// </summary>
-
     static void CreateZombiesPrompt()
     {
-        IZombieFactory zombieFactory = new ZombieFactory();
         string input;
 
         do
@@ -82,23 +73,10 @@ class Program
 
                 if (zombie != null)
                 {
-                    if (zombie is ConeZombie coneZombie)
-                    {
-                        coneZombie.OnTransformation += HandleZombieTransformation;
-                    }
-                    if (zombie is BucketZombie bucketZombie)
-                    {
-                        bucketZombie.OnTransformation += HandleZombieTransformation;
-                    }
-                    if (zombie is ScreendoorZombie screendoorZombie)
-                    {
-                        screendoorZombie.OnTransformation += HandleZombieTransformation;
-                    }
-                    zombies.Add(zombie);
+                    gameObjectManager.AddZombie(zombie);
                     Console.WriteLine($"{zombie.Type} Zombie created with {zombie.Health} health.");
                 }
             }
-
             catch (ArgumentException ex)
             {
                 Console.WriteLine(ex.Message);
@@ -107,28 +85,20 @@ class Program
         } while (input != "z");
 
         Console.WriteLine("Zombies created:");
-        foreach (var zombie in zombies)
+        foreach (var zombie in gameObjectManager.GetAllZombies())
         {
-            Console.WriteLine($"{zombie.Type} Zombie (Health: {zombie.Health})");
+            Console.WriteLine(zombie);
         }
 
         Console.WriteLine("Press any key to return to the main menu.");
         Console.ReadKey();
     }
 
-    private static StrikeType GetStrikeType() => strikeType;
-
-    /// <summary>
-    /// Driver code for gameplay
-    /// </summary>
-
-    static void DemoGameplay(StrikeType strikeType)
+    static void DemoGameplay()
     {
-        Console.WriteLine("Press the space bar to damage the first zombie, or any other key to return to the main menu.");
+        Console.WriteLine("Press the space bar to simulate an attack on the first zombie, or any other key to return to the main menu.");
         Console.WriteLine();
         Console.WriteLine("Take a look at your zombies!");
-        Console.WriteLine();
-        PrintZombies(zombies);
         Console.WriteLine();
         Console.WriteLine("Choose your plant:");
         Console.WriteLine("1 - Peashooter (25 damage)");
@@ -137,98 +107,12 @@ class Program
         Console.Write("Enter your choice: ");
 
         string plantChoice = Console.ReadLine();
-        int damage = 0;
-        switch (plantChoice)
-        {
-            case "1":
-                damage = 25;
-                strikeType = StrikeType.Normal;
-                break;
-            case "2":
-                damage = 30;
-                strikeType = StrikeType.WatermelonOverhead;
-                break;
-            case "3":
-                damage = 0; // Set to 0 or appropriate value based on extended functionality
-                strikeType = StrikeType.MushroomExtract;
-                ExtendShroomMagnetFunctionality();
-                break;
-            default:
-                Console.WriteLine("Invalid choice. Returning to main menu.");
-                return;
-        }
+        int selectedPlantType = int.Parse(plantChoice);
 
-        Console.WriteLine($"Plant selected. Press the space bar to damage the first zombie with {damage} damage. Other keys return to main menu.");
-        Console.WriteLine();
+        // Simulating the attack without directly interacting with zombies here
+        gameEventManager.SimulateCollisionDetection(selectedPlantType);
 
-        while (Console.ReadKey(true).Key == ConsoleKey.Spacebar)
-        {
-            if (zombies.Count > 0)
-            {
-                bool damageTaken = zombies[0].TakeDamage(damage, strikeType);
-
-                // Only print the damage message if damage was actually taken
-                if (damageTaken)
-                {
-                    Console.WriteLine($"{zombies[0].Type} Zombie took {damage} damage. Current Health: {zombies[0].Health}");
-                }
-                if (zombies[0].Health <= 0)
-                {
-                    Console.WriteLine($"{zombies[0].Type} Zombie has died and is removed from the list.");
-                    zombies.RemoveAt(0);
-                }
-
-                if (zombies.Count > 0)
-                {
-                    PrintZombies(zombies);
-                    Console.WriteLine("Press the space bar to damage the first zombie. Other keys return to main menu.");
-                    Console.WriteLine();
-                }
-                else
-                {
-                    Console.WriteLine("Zombies eradicated.");
-                    break;
-                }
-            }
-            else
-            {
-                Console.WriteLine("Zombies eradicated.");
-                break;
-            }
-        }
-    }
-
-    static void ExtendShroomMagnetFunctionality()
-    {
-        Console.WriteLine("ShroomMagnet's special functionality activated.");
-    }
-
-    /// <summary>
-    /// PrintZombies iterates the list of IZombieComponent and prints each zombie
-    /// </summary>
-    /// <param name="zombies"></param>
-
-    static void PrintZombies(List<IZombieComponent> zombies)
-    {
-        Console.WriteLine("Current Zombies:");
-        foreach (var zombie in zombies)
-        {
-            Console.WriteLine(zombie);
-        }
-    }
-
-    /// <summary>
-    /// HandleZombieTransformation takes the oldZombie and transforms it accordingly.
-    /// </summary>
-    /// <param name="oldZombie"></param>
-    /// <param name="newZombie"></param>
-    static void HandleZombieTransformation(IZombieComponent oldZombie, IZombieComponent newZombie)
-    {
-        int index = zombies.IndexOf(oldZombie);
-        if (index != -1)
-        {
-            zombies[index] = newZombie;
-            Console.WriteLine($"A {oldZombie.Type} Zombie transformed into a Regular Zombie!");
-        }
+        Console.WriteLine("Simulation complete. Press any key to return to the main menu.");
+        Console.ReadKey();
     }
 }
