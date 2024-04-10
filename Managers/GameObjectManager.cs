@@ -1,4 +1,5 @@
-﻿using MidtermOneSWE.Interfaces;
+﻿using MidtermOneSWE.Factories;
+using MidtermOneSWE.Interfaces;
 using MidtermTwoSWE.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -12,116 +13,61 @@ namespace MidtermOneSWE.Managers
     public class GameObjectManager
     {
         private List<IZombieComponent> zombies = new List<IZombieComponent>();
-        private List<IGameEntityObserver> observers = new List<IGameEntityObserver>(); // Observers list
+        private ZombieFactory zombieFactory; // Hold a reference to the factory, but it's not set in the constructor
 
-        // Allows observers to subscribe for notifications
-        public void Subscribe(IGameEntityObserver observer)
+        // Constructor does not require the factory parameter
+        public GameObjectManager()
         {
-            if (!observers.Contains(observer))
-            {
-                observers.Add(observer);
-            }
         }
 
-        // Allows observers to unsubscribe from notifications
-        public void Unsubscribe(IGameEntityObserver observer)
+        // Method to inject the ZombieFactory instance after instantiation
+        public void SetZombieFactory(ZombieFactory factory)
         {
-            observers.Remove(observer);
+            this.zombieFactory = factory;
         }
 
-        // Notify all observers about an event
-        private void NotifyObservers(IZombieComponent zombie, string eventType)
-        {
-            foreach (var observer in observers)
-            {
-                observer.Notify(zombie, eventType);
-            }
-        }
-
-        // Adds a zombie and notifies observers about the addition
         public void AddZombie(IZombieComponent zombie)
         {
             zombies.Add(zombie);
-            NotifyObservers(zombie, "ZombieAdded"); // Notify observers of a new zombie
         }
 
-        // Removes a zombie and notifies observers about the removal
-        public void RemoveZombie(IZombieComponent zombie)
+        public bool RemoveZombie(IZombieComponent zombie)
         {
-            if (zombies.Remove(zombie))
-            {
-                NotifyObservers(zombie, "ZombieRemoved"); // Notify observers of zombie removal
-            }
+            return zombies.Remove(zombie);
         }
 
         public IEnumerable<IZombieComponent> GetAllZombies()
         {
-            return zombies;
+            return zombies.AsReadOnly();
         }
 
-        // Handles the transformation of a zombie and notifies observers
-        public void HandleZombieTransformation(IZombieComponent oldZombie, IZombieComponent newZombie)
+        // Now, assuming you need to transform a zombie inside GameObjectManager using the factory
+        public IZombieComponent TransformZombie(string oldZombieId, string newZombieType)
         {
-            // Replace the oldZombie with newZombie in the list
-            int index = zombies.IndexOf(oldZombie);
-            if (index != -1)
+            var oldZombie = zombies.FirstOrDefault(z => z.Id == oldZombieId);
+            if (oldZombie != null)
             {
-                zombies[index] = newZombie;
-                NotifyObservers(newZombie, "ZombieTransformed"); // Notify observers of zombie transformation
-                Console.WriteLine($"A {oldZombie.Type} Zombie transformed into a {newZombie.Type}!");
+                var newZombie = zombieFactory.CreateZombie(newZombieType);
+                if (newZombie != null)
+                {
+                    RemoveZombie(oldZombie);
+                    AddZombie(newZombie);
+                    return newZombie;
+                }
             }
+            return null;
         }
 
         public void ReplaceZombie(IZombieComponent oldZombie, IZombieComponent newZombie)
         {
-            int index = zombies.IndexOf(oldZombie);
+            int index = zombies.FindIndex(z => z.Id == oldZombie.Id);
             if (index != -1)
             {
-                zombies[index] = newZombie; // Replace the old zombie with the new one.
-                NotifyObservers(newZombie, "ZombieReplaced"); // Optionally notify observers of zombie replacement
+                // Replace the old zombie with the new zombie in the list
+                zombies[index] = newZombie;
             }
         }
+
+        // Additional methods as necessary...
     }
-
-
-    /*class GameObjectManager
-    {
-        private List<IZombieComponent> zombies = new List<IZombieComponent>();
-
-        public void AddZombie(IZombieComponent zombie)
-        {
-            zombies.Add(zombie);
-        }
-
-        public void RemoveZombie(IZombieComponent zombie)
-        {
-            zombies.Remove(zombie);
-        }
-
-        public IEnumerable<IZombieComponent> GetAllZombies()
-        {
-            return zombies;
-        }
-
-        public void HandleZombieTransformation(IZombieComponent oldZombie, IZombieComponent newZombie)
-        {
-            // Replace the oldZombie with newZombie in the list
-            int index = zombies.IndexOf(oldZombie);
-            if (index != -1)
-            {
-                zombies[index] = newZombie;
-                Console.WriteLine($"A {oldZombie.Type} Zombie transformed into a {newZombie.Type}!");
-            }
-        }
-
-        public void ReplaceZombie(IZombieComponent oldZombie, IZombieComponent newZombie)
-        {
-            int index = zombies.IndexOf(oldZombie);
-            if (index != -1)
-            {
-                zombies[index] = newZombie; // Replace the old zombie with the new one.
-            }
-        }
-
-    }*/
 }

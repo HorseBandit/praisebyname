@@ -9,49 +9,40 @@ using System.Threading.Tasks;
 
 namespace MidtermOneSWE.Managers
 {
-    public class GameEventManager : IGameEntityObserver
+    public class GameEventManager
     {
         private GameObjectManager gameObjectManager;
 
         public GameEventManager(GameObjectManager manager)
         {
             this.gameObjectManager = manager;
-            // Subscribe to the GameObjectManager's notifications
-            gameObjectManager.Subscribe(this);
         }
 
-        // Implementation of the IGameEntityObserver interface
-        public void Notify(IZombieComponent zombie, string eventType)
+        // This method is an example of actively checking game conditions or states
+        // and responding by directly manipulating the game state.
+        public void UpdateGameState()
         {
-            // Handle different types of events
-            switch (eventType)
+            // Example implementation - adjust according to your game's logic and requirements
+
+            // Check game conditions or listen to specific game triggers
+            // and act upon them directly through GameObjectManager or other game components.
+
+            // This method should be called within your game loop or event processing loop.
+        }
+
+        // This method directly requests the transformation of a zombie to another type.
+        public void RequestZombieTransformation(IZombieComponent oldZombie, string newZombieType)
+        {
+            // Assuming oldZombie has an 'Id' property.
+            // First, ensure that the 'Id' property is accessible within IZombieComponent.
+            var newZombie = gameObjectManager.TransformZombie(oldZombie.Id, newZombieType);
+            if (newZombie != null)
             {
-                case "ZombieAdded":
-                    Console.WriteLine($"Zombie added: {zombie.Type}");
-                    break;
-                case "ZombieRemoved":
-                    Console.WriteLine($"Zombie removed: {zombie.Type}");
-                    // Handle additional logic for zombie removal, if necessary
-                    break;
-                case "ZombieTransformed":
-                    Console.WriteLine($"Zombie transformed: {zombie.Type}");
-                    // Handle transformation logic, if necessary
-                    break;
-                case "ZombieReplaced":
-                    Console.WriteLine($"Zombie replaced with new type: {zombie.Type}");
-                    // Handle replacement logic, if necessary
-                    break;
-                default:
-                    Console.WriteLine("Unhandled event type.");
-                    break;
+                Console.WriteLine($"Transformed a zombie into a {newZombieType}.");
             }
         }
 
-        public void RequestZombieTransformation(IZombieComponent oldZombie, IZombieComponent newZombie)
-        {
-            gameObjectManager.HandleZombieTransformation(oldZombie, newZombie);
-        }
-
+        // Example method that could simulate collision detection and apply effects based on plant types.
         public void SimulateCollisionDetection(int plantType)
         {
             foreach (var zombie in gameObjectManager.GetAllZombies())
@@ -65,52 +56,20 @@ namespace MidtermOneSWE.Managers
                         zombie.TakeDamage(30, StrikeType.WatermelonOverhead);
                         break;
                     case 3: // Magnet-shroom attack
-                        if (zombie.HasMetal) // Ensure this check or logic is implemented in the TakeDamage method
+                        if (zombie.HasMetal) // Assuming a HasMetal property or similar mechanism
                         {
-                            zombie.TakeDamage(0, StrikeType.MushroomExtract);
+                            Console.WriteLine("Magnet-shroom effect applied: Accessory removed from a metal zombie.");
+                            // Specific logic to remove metal accessory or transform the zombie
                         }
                         break;
+                    default:
+                        Console.WriteLine("Invalid plant type.");
+                        break;
                 }
             }
         }
 
-        // Ensure to unsubscribe when the GameEventManager is no longer in use
-        public void Cleanup()
-        {
-            gameObjectManager.Unsubscribe(this);
-        }
+        // You might include other methods that actively manage different aspects of the game,
+        // such as responding to user inputs, managing game levels, or updating scores.
     }
-    /*class GameEventManager
-    {
-        private GameObjectManager gameObjectManager;
-
-        public GameEventManager(GameObjectManager manager)
-        {
-            this.gameObjectManager = manager;
-        }
-
-        public void RequestZombieTransformation(IZombieComponent oldZombie, IZombieComponent newZombie)
-        {
-            gameObjectManager.HandleZombieTransformation(oldZombie, newZombie);
-        }
-
-        public void SimulateCollisionDetection(int plantType)
-        {
-            foreach (var zombie in gameObjectManager.GetAllZombies())
-            {
-                switch (plantType)
-                {
-                    case 1: // Peashooter attack
-                        zombie.TakeDamage(25, StrikeType.Normal);
-                        break;
-                    case 2: // Watermelon attack
-                        zombie.TakeDamage(30, StrikeType.WatermelonOverhead);
-                        break;
-                    case 3: // Magnet-shroom attack
-                        zombie.TakeDamage(0, StrikeType.MushroomExtract);
-                        break;
-                }
-            }
-        }
-    }*/
 }

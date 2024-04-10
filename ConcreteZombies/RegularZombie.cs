@@ -14,6 +14,8 @@ namespace MidtermOneSWE.ConcreteZombies
         public event ZombieTransformationHandler OnTransformation;
 
         public string Type { get; private set; } = "Regular";
+
+        public string Id { get; private set; }
         public int Health { get; private set; } = 50;
         public bool HasAccessory { get; private set; } = false;
         public bool HasMetal { get; private set; } = false;
@@ -24,7 +26,10 @@ namespace MidtermOneSWE.ConcreteZombies
         }
 
         // Constructor
-        public RegularZombie() { }
+        public RegularZombie()
+        {
+            Id = Guid.NewGuid().ToString();
+        }
         public (bool success, DmgOutcome outcome) TakeDamage(int damage, StrikeType strikeType)
         {
             if (damage <= 0)

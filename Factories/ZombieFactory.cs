@@ -13,16 +13,20 @@ namespace MidtermOneSWE.Factories
     /// <summary>
     /// ZombieFactory implements IZombieFactory
     /// </summary>
-    class ZombieFactory : IZombieFactory
+    public class ZombieFactory : IZombieFactory
     {
         private Random random = new Random();
 
-        private GameObjectManager _gameObjectManager;
+        private GameObjectManager gameObjectManager;
 
-        // Constructor to set GameObjectManager
-        public ZombieFactory(GameObjectManager gameObjectManager)
+        // Default constructor if no initial setup is required beyond the GameObjectManager
+        public ZombieFactory()
         {
-            _gameObjectManager = gameObjectManager;
+        }
+
+        public void SetGameObjectManager(GameObjectManager manager)
+        {
+            gameObjectManager = manager;
         }
 
         /// <summary>
@@ -34,23 +38,21 @@ namespace MidtermOneSWE.Factories
         /// </returns>
         /// <exception cref="ArgumentException"></exception>
         /// 
-        public IZombieComponent CreateZombie(string type)
+        public IZombieComponent CreateZombie(string zombieType)
         {
-            IZombieComponent baseZombie = new RegularZombie(); // Base zombie for decorators
-            switch (type)
+            // Your logic to create different types of zombies
+            // This method might utilize gameObjectManager for certain operations, if needed
+
+            switch (zombieType)
             {
                 case "Regular":
-                    return baseZombie;
-                case "Cone":
-                    return new ConeDecorator(baseZombie, this, _gameObjectManager, 75);
-                case "Bucket":
-                    return new BucketDecorator(baseZombie, this, _gameObjectManager, 150);
-                case "Screendoor":
-                    return new ScreenDoorDecorator(baseZombie, this, _gameObjectManager, 75);
+                    return new RegularZombie();
+                // Handle other types similarly
                 default:
-                    throw new ArgumentException("Invalid zombie type", nameof(type));
+                    throw new ArgumentException("Unsupported zombie type", nameof(zombieType));
             }
         }
+
 
         /// <summary>
         /// CreateRandomZombie creates a random zombie of four given types.

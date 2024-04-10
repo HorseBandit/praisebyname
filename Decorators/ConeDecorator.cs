@@ -12,13 +12,16 @@ namespace MidtermOneSWE.Decorators
     class ConeDecorator : ZombieDecorator
     {
         public override string Type => "Cone";
+
+        public string Id { get; private set; }
         public ConeDecorator(IZombieComponent zombie, IZombieFactory zombieFactory, GameObjectManager gameObjectManager, int health)
         : base(zombie, zombieFactory, gameObjectManager) 
         {
             this.HasAccessory = true;
             this.HasMetal = false;
             this._zombie.SetHealth(health);
-            this._gameObjectManager = gameObjectManager; 
+            this._gameObjectManager = gameObjectManager;
+            Id = Guid.NewGuid().ToString();
         }
 
         public override (bool success, DmgOutcome outcome) TakeDamage(int damage, StrikeType strikeType)

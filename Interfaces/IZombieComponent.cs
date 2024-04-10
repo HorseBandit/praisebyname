@@ -12,6 +12,8 @@ namespace MidtermOneSWE.Interfaces
     public interface IZombieComponent
     {
         event ZombieTransformationHandler OnTransformation;
+
+        string Id { get; }
         string Type { get; }
         int Health { get; }
         bool HasAccessory { get; }

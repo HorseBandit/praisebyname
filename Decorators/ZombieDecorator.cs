@@ -17,6 +17,8 @@ namespace MidtermOneSWE.Decorators
         protected IZombieFactory _zombieFactory;
         protected GameObjectManager _gameObjectManager;
 
+        public string Id { get; private set; }
+
         public virtual string Type => _zombie.Type;
         public int Health => _zombie.Health;
         public bool HasAccessory { get; protected set; }
@@ -30,6 +32,7 @@ namespace MidtermOneSWE.Decorators
             _zombieFactory = zombieFactory;
             _gameObjectManager = gameObjectManager;
             HasAccessory = true;
+            Id = Guid.NewGuid().ToString();
         }
 
         public virtual void SetHealth(int newHealth)

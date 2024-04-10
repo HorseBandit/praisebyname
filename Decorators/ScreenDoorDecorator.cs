@@ -12,13 +12,16 @@ namespace MidtermOneSWE.Decorators
     class ScreenDoorDecorator : ZombieDecorator
     {
         public override string Type => "ScreenDoor";
+
+        public string Id { get; private set; }
         public ScreenDoorDecorator(IZombieComponent zombie, IZombieFactory zombieFactory, GameObjectManager gameObjectManager, int health)
         : base(zombie, zombieFactory, gameObjectManager)
         {
             this.HasAccessory = true;
             this.HasMetal = true;
             this._zombie.SetHealth(health);
-            this._gameObjectManager = gameObjectManager; 
+            this._gameObjectManager = gameObjectManager;
+            Id = Guid.NewGuid().ToString();
         }
 
         public override (bool success, DmgOutcome outcome) TakeDamage(int damage, StrikeType strikeType)
