@@ -7,9 +7,9 @@ using MidtermOneSWE.Utilities;
 
 class Program
 {
-    private static GameObjectManager gameObjectManager = new GameObjectManager();
-    private static ZombieFactory zombieFactory = new ZombieFactory(gameObjectManager);
-    private static GameEventManager gameEventManager = new GameEventManager(gameObjectManager);
+    private static readonly GameObjectManager gameObjectManager = new GameObjectManager();
+    private static readonly ZombieFactory zombieFactory = new ZombieFactory(gameObjectManager); // Use this factory throughout
+    private static readonly GameEventManager gameEventManager = new GameEventManager(gameObjectManager);
 
     static void Main(string[] args)
     {
@@ -33,6 +33,7 @@ class Program
                     DemoGameplay();
                     break;
                 case "3":
+                    Cleanup(); // Ensure resources are properly released
                     exit = true;
                     break;
                 default:
@@ -44,8 +45,6 @@ class Program
 
     static void CreateZombiesPrompt()
     {
-        IZombieFactory zombieFactory = new ZombieFactory(gameObjectManager);
-
         string input;
         do
         {
@@ -56,53 +55,46 @@ class Program
             Console.WriteLine("4. Screendoor");
             Console.WriteLine();
             Console.WriteLine("Press 'z' to finish creating zombies.");
-            Console.Write("Select a type of zombie: ");
+            Console.Write("Select a type of zombie (1-4): ");
 
             input = Console.ReadLine();
 
-            try
-            {
-                IZombieComponent zombie = null;
-                string zombieType = "";
-                switch (input)
-                {
-                    case "1":
-                        zombie = zombieFactory.CreateZombie("Regular");
-                        zombieType = "Regular";
-                        break;
-                    case "2":
-                        zombie = zombieFactory.CreateZombie("Cone");
-                        zombieType = "Cone";
-                        break;
-                    case "3":
-                        zombie = zombieFactory.CreateZombie("Bucket");
-                        zombieType = "Bucket";
-                        break;
-                    case "4":
-                        zombie = zombieFactory.CreateZombie("Screendoor");
-                        zombieType = "Screendoor";
-                        break;
-                    case "z":
-                        // Exit the loop
-                        break;
-                    default:
-                        throw new ArgumentException("Invalid zombie type", nameof(input));
-                }
+            IZombieComponent zombie = null;
+            string zombieType = "";
 
-                if (zombie != null)
-                {
-                    gameObjectManager.AddZombie(zombie); // Assuming gameObjectManager is accessible here
-                    Console.WriteLine($"{zombieType} Zombie created with {zombie.Health} health.");
-                }
-            }
-            catch (ArgumentException ex)
+            switch (input)
             {
-                Console.WriteLine(ex.Message);
+                case "1":
+                    zombie = zombieFactory.CreateZombie("Regular");
+                    zombieType = "Regular Zombie";
+                    break;
+                case "2":
+                    zombie = zombieFactory.CreateZombie("Cone");
+                    zombieType = "Cone Zombie";
+                    break;
+                case "3":
+                    zombie = zombieFactory.CreateZombie("Bucket");
+                    zombieType = "Bucket Zombie";
+                    break;
+                case "4":
+                    zombie = zombieFactory.CreateZombie("Screendoor");
+                    zombieType = "Screendoor Zombie";
+                    break;
+                case "z":
+                    // Exit the loop
+                    return;
+                default:
+                    Console.WriteLine("Invalid selection. Please select a type of zombie (1-4) or press 'z' to finish.");
+                    continue; // Skip the rest of the loop and prompt again
+            }
+
+            if (zombie != null)
+            {
+                gameObjectManager.AddZombie(zombie);
+                // Display the newly created zombie
+                Console.WriteLine($"A {zombieType} has been created with {zombie.Health} health.");
             }
         } while (input != "z");
-
-        Console.WriteLine("Zombies created:");
-        PrintAllZombies(gameObjectManager);
 
         Console.WriteLine("Press any key to return to the main menu.");
         Console.ReadKey();
@@ -111,7 +103,7 @@ class Program
     static void DemoGameplay()
     {
         Console.WriteLine("Take a look at your zombies!");
-        PrintAllZombies(gameObjectManager);
+        PrintAllZombies();
 
         if (!gameObjectManager.GetAllZombies().Any())
         {
@@ -180,7 +172,7 @@ class Program
                     gameObjectManager.RemoveZombie(firstZombie);
                 }
 
-                PrintAllZombies(gameObjectManager);
+                PrintAllZombies();
             }
             else
             {
@@ -190,12 +182,17 @@ class Program
         }
     }
 
-    static void PrintAllZombies(GameObjectManager gameObjectManager)
+    static void PrintAllZombies()
     {
         Console.WriteLine("Current Zombies:");
         foreach (var zombie in gameObjectManager.GetAllZombies())
         {
             Console.WriteLine($"{zombie.Type} Zombie (Health: {zombie.Health})");
         }
+    }
+
+    static void Cleanup()
+    {
+        Console.WriteLine("Cleaning up before exit...");
     }
 }
