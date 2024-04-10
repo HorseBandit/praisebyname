@@ -40,14 +40,22 @@ namespace MidtermOneSWE.Factories
         /// 
         public IZombieComponent CreateZombie(string zombieType)
         {
-            // Your logic to create different types of zombies
-            // This method might utilize gameObjectManager for certain operations, if needed
+            // Base component
+            IZombieComponent baseZombie = new RegularZombie(); // Assumes a default constructor is available
 
             switch (zombieType)
             {
                 case "Regular":
-                    return new RegularZombie();
-                // Handle other types similarly
+                    return baseZombie;
+                case "Cone":
+                    // Wrap the base zombie in a ConeDecorator
+                    return new ConeDecorator(baseZombie, this, gameObjectManager, 75); // Health value is exemplary
+                case "Bucket":
+                // Similar wrapping in a BucketDecorator
+                    return new BucketDecorator(baseZombie, this, gameObjectManager, 150);
+                    case "Screendoor":
+                // Similar wrapping in a ScreendoorDecorator
+                return new ScreenDoorDecorator(baseZombie, this, gameObjectManager, 75);
                 default:
                     throw new ArgumentException("Unsupported zombie type", nameof(zombieType));
             }

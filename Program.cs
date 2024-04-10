@@ -23,6 +23,14 @@ class Program
         gameEventManager = new GameEventManager(gameObjectManager); // Finally, instantiate GameEventManager
     }
 
+    private static readonly Dictionary<string, string> zombieTypeMap = new Dictionary<string, string>
+    {
+        { "1", "Regular" },
+        { "2", "Cone" },
+        { "3", "Bucket" },
+        { "4", "Screendoor" }
+    };
+
     static void Main(string[] args)
     {
         bool exit = false;
@@ -69,20 +77,26 @@ class Program
 
             input = Console.ReadLine();
 
-            if (input == "z") break;
-
-            try
+            // Attempt to get the zombieType from the dictionary using the input
+            if (zombieTypeMap.TryGetValue(input, out string zombieType))
             {
-                IZombieComponent zombie = zombieFactory.CreateZombie(input);
-                gameObjectManager.AddZombie(zombie);
-                Console.WriteLine($"A {zombie.Type} has been created with {zombie.Health} health.");
+                try
+                {
+                    IZombieComponent zombie = zombieFactory.CreateZombie(zombieType);
+                    gameObjectManager.AddZombie(zombie);
+                    Console.WriteLine($"A {zombieType} Zombie has been created with {zombie.Health} health.");
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                }
             }
-            catch (Exception ex)
+            else if (input != "z")
             {
-                Console.WriteLine(ex.Message);
+                Console.WriteLine("Invalid selection. Please select a type of zombie (1-4) or press 'z' to finish.");
             }
         } while (input != "z");
-
+        PrintAllZombies();
         Console.WriteLine("Press any key to return to the main menu.");
         Console.ReadKey();
     }
