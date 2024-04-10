@@ -21,7 +21,6 @@ namespace MidtermOneSWE.Interfaces
 
         (bool success, DmgOutcome outcome) TakeDamage(int damage, StrikeType strikeType);
 
-        //bool TakeDamage(int damage, StrikeType strikeType);
         void Die();
         void SetHealth(int newHealth);
     }

@@ -11,5 +11,4 @@ namespace MidtermTwoSWE.Interfaces
     {
         void Notify(IZombieComponent zombie, string eventType);
     }
-
 }

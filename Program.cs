@@ -7,7 +7,6 @@ using MidtermOneSWE.Utilities;
 
 class Program
 {
-    // Define these as static members so they are accessible from static methods like Main and others.
     private static readonly GameObjectManager gameObjectManager;
     private static readonly ZombieFactory zombieFactory;
     private static readonly GameEventManager gameEventManager;
@@ -16,11 +15,11 @@ class Program
     {
         gameObjectManager = new GameObjectManager();
         zombieFactory = new ZombieFactory();
-        zombieFactory.SetGameObjectManager(gameObjectManager); // Now safe, as both instances are surely created
+        zombieFactory.SetGameObjectManager(gameObjectManager);
 
-        gameObjectManager.SetZombieFactory(zombieFactory); // Ensure this method exists in GameObjectManager
+        gameObjectManager.SetZombieFactory(zombieFactory);
 
-        gameEventManager = new GameEventManager(gameObjectManager); // Finally, instantiate GameEventManager
+        gameEventManager = new GameEventManager(gameObjectManager);
     }
 
     private static readonly Dictionary<string, string> zombieTypeMap = new Dictionary<string, string>

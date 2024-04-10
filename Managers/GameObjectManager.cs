@@ -13,14 +13,12 @@ namespace MidtermOneSWE.Managers
     public class GameObjectManager
     {
         private List<IZombieComponent> zombies = new List<IZombieComponent>();
-        private ZombieFactory zombieFactory; // Hold a reference to the factory, but it's not set in the constructor
+        private ZombieFactory zombieFactory;
 
-        // Constructor does not require the factory parameter
         public GameObjectManager()
         {
         }
 
-        // Method to inject the ZombieFactory instance after instantiation
         public void SetZombieFactory(ZombieFactory factory)
         {
             this.zombieFactory = factory;
@@ -41,7 +39,6 @@ namespace MidtermOneSWE.Managers
             return zombies.AsReadOnly();
         }
 
-        // Now, assuming you need to transform a zombie inside GameObjectManager using the factory
         public IZombieComponent TransformZombie(string oldZombieId, string newZombieType)
         {
             var oldZombie = zombies.FirstOrDefault(z => z.Id == oldZombieId);
@@ -67,7 +64,5 @@ namespace MidtermOneSWE.Managers
                 zombies[index] = newZombie;
             }
         }
-
-        // Additional methods as necessary...
     }
 }

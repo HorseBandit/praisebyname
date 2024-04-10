@@ -48,19 +48,15 @@ namespace MidtermOneSWE.Factories
                 case "Regular":
                     return baseZombie;
                 case "Cone":
-                    // Wrap the base zombie in a ConeDecorator
                     return new ConeDecorator(baseZombie, this, gameObjectManager, 75); // Health value is exemplary
                 case "Bucket":
-                // Similar wrapping in a BucketDecorator
                     return new BucketDecorator(baseZombie, this, gameObjectManager, 150);
                     case "Screendoor":
-                // Similar wrapping in a ScreendoorDecorator
                 return new ScreenDoorDecorator(baseZombie, this, gameObjectManager, 75);
                 default:
                     throw new ArgumentException("Unsupported zombie type", nameof(zombieType));
             }
         }
-
 
         /// <summary>
         /// CreateRandomZombie creates a random zombie of four given types.
